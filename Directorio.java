@@ -48,7 +48,8 @@ public class Directorio {
         }
       }
       if (i == na && !borro)
-        out.println("El Contacto con nombre: " + nombre + " no existe!\n");
+        out.println("El Contacto con nombre: " 
+                + nombre + " no existe!\n");
     } else
       out.println("No hay articulos almacenados\n");
   }
@@ -70,7 +71,8 @@ public class Directorio {
       if (borro)
         out.println("Se elimino al menos un Contacto");
       else
-        out.println("No existe ningun Contacto con el nombre " + nombre + "\n");
+        out.println("No existe ningun Contacto con el nombre " 
+            + nombre + "\n");
     } else
       out.println("No hay Contactos almacenados\n");
   }
@@ -84,7 +86,8 @@ public class Directorio {
           break;
         }
       if (con.equals(""))
-        out.println("No existe un Contacto con el nombre " + nombre + "\n");
+        out.println("No existe un Contacto con el nombre " 
+            + nombre + "\n");
     } else
       out.println("No hay Contactos almacenados\n");
   }
@@ -110,7 +113,8 @@ public class Directorio {
               break;
           }
     } else
-      out.println("\nNo se encontraron resultados de la busqueda\n"); // No se si sea necesario
+      out.println("\nNo se encontraron resultados de la busqueda\n"); 
+      // No se si sea necesario
   }
 
   public void mostrarFT() {
@@ -118,7 +122,8 @@ public class Directorio {
     if (!estaVacio())
       for (i = 0; i < na; i++) {
         if (contactos[i] instanceof Amigo)
-          if (!((Amigo) contactos[i]).getFacebook().equals("") || !((Amigo) contactos[i]).getTwitter().equals(""))
+          if (!((Amigo) contactos[i]).getFacebook().equals("") 
+                  || !((Amigo) contactos[i]).getTwitter().equals(""))
             ft += ((Amigo) contactos[i]).toString();
       }
     if (ft.equals(""))
@@ -132,9 +137,11 @@ public class Directorio {
     String clientes = "";
     if (!estaVacio()) {
       for (int i = 0; i < na; i++) {
-        if (contactos[i] instanceof Amigo && !((Amigo) contactos[i]).getCorreo().equals(""))
+        if (contactos[i] instanceof Amigo 
+                && !((Amigo) contactos[i]).getCorreo().equals(""))
           amigos += ((Amigo) contactos[i]).toString();
-        if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
+        if (contactos[i] instanceof Cliente 
+                && !((Cliente) contactos[i]).getCorreo().equals(""))
           clientes += ((Cliente) contactos[i]).toString();
       }
     }
@@ -156,7 +163,8 @@ public class Directorio {
     if (!estaVacio()) {
       Contacto copia[] = ordenarAsc(contactos, new ComparaNombre()); // Ordenar alfabeticamente
       for (int i = 0; i < na; i++) {
-        if (copia[i] instanceof Cliente && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania)) {
+        if (copia[i] instanceof Cliente 
+              && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania)) {
           clientes += ((Cliente) copia[i]).toString();
         }
       }
@@ -167,7 +175,8 @@ public class Directorio {
       out.println("\nClientes de la compania" + compania + ":\n" + clientes);
   }
 
-  //Al chile este se me hace una mamada pero segun me acuerdo hay que usar el comparator
+  // Al chile este se me hace una mamada pero segun me acuerdo hay que usar el
+  // comparator
   public static <T> T[] ordenarAsc(T contactos[], java.util.Comparator<T> cmp) {
     T orden[] = contactos;
     for (int i = 0; i < orden.length; i++)
