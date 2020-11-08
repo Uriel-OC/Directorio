@@ -1,18 +1,22 @@
+import java.net.*;
 /**
  * Clase para definir un Contacto
  *
- * @author Cruz Barrios Luis Alberto, Flores Molina Alfredo, Fernandez Neria
- *         Montserrat, Maya Sanchez Andrea Fernanda, Ortiz Covarrubias Andres
- *         Uriel, Lopez Espindola Luis Enrique
+ * @author Flores Molina Alfredo
+ * @author Cruz Barrios Luis Alberto
+ * @author Fernandez Neria Montserrat 
+ * @author Maya Sanchez Andrea Fernanda
+ * @author Ortiz Covarrubias Andres Uriel
+ * @author Lopez Espindola Luis Enrique
  * @version Septiembre 2020
  */
 public class Cliente extends ContactoCC {
     private String compania;
     private int extension;
-    private String webpage;
+    private URL webpage;
 
-    public Cliente(String nombre, int telefono, int celular, String correo, String compania, int extension,
-            String webpage) {
+    public Cliente(String nombre, Long telefono, Long celular, String correo, String compania, int extension,
+            URL webpage) {
         super(nombre, telefono, celular, correo);
         this.compania = compania;
         this.extension = extension;
@@ -27,7 +31,7 @@ public class Cliente extends ContactoCC {
         return extension;
     }
 
-    public String getWebpage() {
+    public URL getWebpage() {
         return webpage;
     }
 
@@ -39,7 +43,7 @@ public class Cliente extends ContactoCC {
         this.extension = extension;
     }
 
-    public void setWebpage(String webpage) {
+    public void setWebpage(URL webpage) {
         this.webpage = webpage;
     }
 

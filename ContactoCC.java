@@ -1,22 +1,25 @@
 /**
  * Clase para definir un Contacto
  *
- * @author Cruz Barrios Luis Alberto, Flores Molina Alfredo, Fernandez Neria
- *         Montserrat, Maya Sanchez Andrea Fernanda, Ortiz Covarrubias Andres
- *         Uriel, Lopez Espindola Luis Enrique
+ * @author Flores Molina Alfredo
+ * @author Cruz Barrios Luis Alberto
+ * @author Fernandez Neria Montserrat 
+ * @author Maya Sanchez Andrea Fernanda
+ * @author Ortiz Covarrubias Andres Uriel
+ * @author Lopez Espindola Luis Enrique
  * @version Septiembre 2020
  */
 public class ContactoCC extends Contacto {
-    private int celular;
+    private Long celular;
     private String correo;
 
-    public ContactoCC(String nombre, int telefono, int celular, String correo) {
+    public ContactoCC(String nombre, Long telefono, Long celular, String correo) {
         super(nombre, telefono);
         this.celular = celular;
         this.correo = correo;
     }
 
-    public int getCelular() {
+    public Long getCelular() {
         return celular;
     }
 
@@ -24,7 +27,7 @@ public class ContactoCC extends Contacto {
         return correo;
     }
 
-    public void setCelular(int celular) {
+    public void setCelular(Long celular) {
         this.celular = celular;
     }
 
@@ -34,6 +37,6 @@ public class ContactoCC extends Contacto {
 
     @Override
     public String toString() {
-        return super.toString() + "Celular: " + celular + "\nCorreo: " + correo;
+        return super.toString() + "\nCelular: " + celular + "\nCorreo: " + correo;
     }
 }

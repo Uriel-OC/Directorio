@@ -1,17 +1,20 @@
 /**
  * Clase para definir un Contacto
  *
- * @author Cruz Barrios Luis Alberto, Flores Molina Alfredo, Fernandez Neria
- *         Montserrat, Maya Sanchez Andrea Fernanda, Ortiz Covarrubias Andres
- *         Uriel, Lopez Espindola Luis Enrique
+ * @author Flores Molina Alfredo
+ * @author Cruz Barrios Luis Alberto
+ * @author Fernandez Neria Montserrat 
+ * @author Maya Sanchez Andrea Fernanda
+ * @author Ortiz Covarrubias Andres Uriel
+ * @author Lopez Espindola Luis Enrique
  * @version Septiembre 2020
  */
 
 class Contacto {
     private String nombre;
-    private int telefono;
+    private Long telefono;
 
-    public Contacto(String nombre, int telefono) {
+    public Contacto(String nombre, Long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
     }
@@ -20,7 +23,7 @@ class Contacto {
         return nombre;
     }
 
-    public int getTelefono() {
+    public Long getTelefono() {
         return telefono;
     }
 
@@ -28,7 +31,7 @@ class Contacto {
         this.nombre = nombre;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
 

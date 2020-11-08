@@ -1,18 +1,23 @@
+import java.text.SimpleDateFormat;
+
 /**
  * Clase para definir un Contacto
  *
- * @author Cruz Barrios Luis Alberto, Flores Molina Alfredo, Fernandez Neria
- *         Montserrat, Maya Sanchez Andrea Fernanda, Ortiz Covarrubias Andres
- *         Uriel, Lopez Espindola Luis Enrique
+ * @author Flores Molina Alfredo
+ * @author Cruz Barrios Luis Alberto
+ * @author Fernandez Neria Montserrat
+ * @author Maya Sanchez Andrea Fernanda
+ * @author Ortiz Covarrubias Andres Uriel
+ * @author Lopez Espindola Luis Enrique
  * @version Septiembre 2020
  */
 public class Amigo extends ContactoCC {
     private String apodo;
-    private String cumpleanios;
+    private SimpleDateFormat cumpleanios;
     private String facebook;
     private String twitter;
 
-    public Amigo(String nombre, int telefono, int celular, String correo, String apodo, String cumpleanios,
+    public Amigo(String nombre, Long telefono, Long celular, String correo, String apodo, SimpleDateFormat cumpleanios,
             String facebook, String twitter) {
         super(nombre, telefono, celular, correo);
         this.apodo = apodo;
@@ -25,7 +30,7 @@ public class Amigo extends ContactoCC {
         return apodo;
     }
 
-    public String getCumpleanios() {
+    public SimpleDateFormat getCumpleanios() {
         return cumpleanios;
     }
 
@@ -41,7 +46,7 @@ public class Amigo extends ContactoCC {
         this.apodo = apodo;
     }
 
-    public void setCumpleanios(String cumpleanios) {
+    public void setCumpleanios(SimpleDateFormat cumpleanios) {
         this.cumpleanios = cumpleanios;
     }
 
@@ -55,7 +60,7 @@ public class Amigo extends ContactoCC {
 
     @Override
     public String toString() {
-        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios" + cumpleanios + "\nFacebook: " + facebook
-                + "\nTwitter" + twitter;
+        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: " + facebook
+                + "\nTwitter:" + twitter;
     }
 }
