@@ -157,9 +157,8 @@ public class Directorio {
     if (!estaVacio()) {
       Contacto copia[] = ordenarAsc(contactos, new ComparaNombre()); // Ordenar alfabeticamente
       for (int i = 0; i < na; i++) {
-        if (copia[i] instanceof Cliente && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania)) {
+        if (copia[i] instanceof Cliente && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania))
           clientes += ((Cliente) copia[i]).toString();
-        }
       }
     }
     if (clientes.equals(""))
