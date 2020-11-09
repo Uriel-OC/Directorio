@@ -1,10 +1,11 @@
 import java.net.*;
+
 /**
  * Clase para definir un Contacto
  *
  * @author Flores Molina Alfredo
  * @author Cruz Barrios Luis Alberto
- * @author Fernandez Neria Montserrat 
+ * @author Fernandez Neria Montserrat
  * @author Maya Sanchez Andrea Fernanda
  * @author Ortiz Covarrubias Andres Uriel
  * @author Lopez Espindola Luis Enrique

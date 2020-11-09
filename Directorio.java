@@ -7,7 +7,7 @@ import java.net.*;
 
 public class Directorio {
   private Contacto contactos[];
-  private int na, i;
+  private int na;
   private Scanner lector;
   private Scanner lector1;
 
@@ -37,6 +37,7 @@ public class Directorio {
   }
 
   public void eliminarN(String nombre) {
+    int i;
     boolean borro = false;
     if (!estaVacio()) {
       for (i = 0; i < na; i++) {
@@ -60,7 +61,7 @@ public class Directorio {
     boolean borro = false;
     if (!estaVacio()) {
       do {
-        for (i = 0; i < na; i++)
+        for (int i = 0; i < na; i++)
           if (nombre.equals(contactos[i].getNombre())) {
             if (i == (na - 1))
               na--;
@@ -81,10 +82,10 @@ public class Directorio {
   public void mostrarN(String nombre) {
     String con = "";
     if (!estaVacio()) {
-      for (i = 0; i < na; i++)
+      for (int i = 0; i < na; i++)
         if (nombre.equals(contactos[i].getNombre())) {
-          out.println("\nResultado de la busqueda: \n" +
-              contactos[i].toString());//Aqui no se si sea necesario el .toString()
+          out.println("\nResultado de la busqueda: \n" + contactos[i].toString());// Aqui no se si sea necesario el
+                                                                                  // .toString()
           break;
         }
       if (con.equals(""))
@@ -95,7 +96,7 @@ public class Directorio {
 
   public void mostrarNC(String nombre, char cat) {
     if (!estaVacio() && contieneN(nombre)) {
-      for (i = 0; i < na; i++)
+      for (int i = 0; i < na; i++)
         if (nombre.equals(contactos[i].getNombre()))
           switch (cat) {
             case 'a':
@@ -114,44 +115,44 @@ public class Directorio {
               break;
           }
     } else
-      out.println("\nNo se encontraron resultados de la busqueda\n");
+      out.println("No se encontraron resultados de la busqueda\n");
     // No se si sea necesario
   }
 
   public void mostrarFT() {
     String ft = "";
     if (!estaVacio())
-      for (i = 0; i < na; i++) {
+      for (int i = 0; i < na; i++) {
         if (contactos[i] instanceof Amigo)
-          if (!((Amigo) contactos[i]).getFacebook().equals("") 
-              || !((Amigo) contactos[i]).getTwitter().equals(""))
+          if (!((Amigo) contactos[i]).getFacebook().equals("") || !((Amigo) contactos[i]).getTwitter().equals(""))
             ft += ((Amigo) contactos[i]).toString();
       }
     if (ft.equals(""))
-      out.println("\nNo hay amigos con Facebook o Twitter que mostrar :(\n");
+      out.println("No hay amigos con Facebook o Twitter que mostrar :(\n");
     else
-      out.println("\n*******AMIGOS CON FACEBOOK o TWITTER*******\n" + ft);
+      out.println("*******AMIGOS CON FACEBOOK o TWITTER*******\n" + ft);
   }
 
   public void mostrarCo() {
     String amigos = "";
     String clientes = "";
+    int i;
     if (!estaVacio()) {
-      for (int i = 0; i < na; i++)
+      for (i = 0; i < na; i++)
         if (contactos[i] instanceof Amigo && !((Amigo) contactos[i]).getCorreo().equals(""))
           amigos += ((Amigo) contactos[i]).toString() + "\n**************\n";
-        if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
-          clientes += ((Cliente) contactos[i]).toString() + "\n**************\n";
+      if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
+        clientes += ((Cliente) contactos[i]).toString() + "\n**************\n";
     }
     if (amigos.equals(""))
-      out.println("\nNo hay amigos que mostrar :(\n");
+      out.println("No hay amigos que mostrar :(\n");
     else {
-      out.println("\n*******AMIGOS********\n" + amigos);
+      out.println("*******AMIGOS********\n" + amigos);
     }
     if (clientes.equals(""))
-      out.println("\nNo hay clientes que mostrar :(\n");
+      out.println("No hay clientes que mostrar :(\n");
     else {
-      out.println("\n********CLIENTES*******\n" + clientes);
+      out.println("********CLIENTES*******\n" + clientes);
     }
   }
 
@@ -161,16 +162,91 @@ public class Directorio {
       Contacto copia[] = ordenarAsc(contactos, new ComparaNombre()); // Ordenar alfabeticamente
       for (int i = 0; i < na; i++) {
         if (copia[i] instanceof Cliente && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania))
-          clientes += ((Cliente) copia[i]).toString();
+          clientes += ((Cliente) copia[i]).toString() + "\n***************\n";
       }
     }
     if (clientes.equals(""))
       out.println("\nNo hay clientes que mostrar :(\n");
     else
-      out.println("\nClientes de la compania" + compania + ":\n" + clientes);
+      out.println("\nClientes de la compania" + compania.toUpperCase() + ":\n" + clientes);
   }
-  
-  //Pues sí hay que usarlo así, cambie el método a privado
+
+  public void mostrarDet(char cat) {
+    Contacto cont[] = ordenarAsc(contactos, new ComparaNombre());
+    String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
+    String det = "";
+    if (!estaVacio()) { // Si hay contactos
+      for (int i = 0; i < na; i++)
+        switch (cat) {
+          case 'A': // Es un Amigo
+            if (cont[i] instanceof Amigo)// Lo encontro
+              det += ((Amigo) cont[i]).toString() + "\n********************\n";
+            break;
+          case 'F': // Es un Familiar
+            if (cont[i] instanceof Familiar)// Lo encontro
+              det += ((Familiar) cont[i]).toString() + "\n********************\n";
+            break;
+          case 'C': // Es una Cliente
+            if (cont[i] instanceof Cliente)// Lo encontro
+              det += ((Cliente) cont[i]).toString() + "\n********************\n";
+            break;
+          default:
+            break;
+        }// Fin switch
+      for (int i = 0; i < t.length; i++) {
+        if (cat == (t[i].charAt(0)) && det.equals(""))
+          out.println("No hay '" + t[i] + "' que mostrar\n");
+        if (cat == (t[i].charAt(0)))
+          out.println("******" + t[i] + "********" + det);
+      }
+    } // Fin if(!estaVacio)
+    else
+      out.println("No hay contactos que mostrar");
+  }
+
+  public void mostrarNum(long t) {
+    String con = "";
+    if (!estaVacio()) {
+      for (int i = 0; i < na; i++)
+        if (t == contactos[i].getTelefono()) {
+          out.println("\nResultado de la busqueda: \n" + contactos[i].toString());// Aqui no se si sea necesario el
+                                                                                  // .toString()
+          break;
+        }
+      if (con.equals(""))
+        out.println("No existe un Contacto con el telefono " + t + "\n");
+    } else
+      out.println("No hay Contactos almacenados\n");
+  }
+
+  @Override
+  public String toString() {
+    String[] tipo = { "", "", "" };
+    String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
+    String ts = "";
+    if (!estaVacio()) { // Si hay Contactos
+      Contacto copia[] = ordenarAsc(contactos, new ComparaNombre());
+      for (int i = 0; i < na; i++) { // Los recorremos todos
+        if (copia[i] instanceof Amigo)// Es cliente
+          tipo[0] += ((Amigo) copia[i]).toString() + "\n********************\n";
+        else if (copia[i] instanceof Familiar) // Es amigo
+          tipo[1] += ((Familiar) copia[i]).toString() + "\n********************\n";
+        else if (copia[i] instanceof Cliente) // Es familiar
+          tipo[2] += ((Cliente) copia[i]).toString() + "\n********************\n";
+      }
+      for (int j = 0; j < tipo.length; j++) {
+        if (tipo[j].equals("")) {// No se encontraron amigos
+          tipo[j] = "No hay '" + t[j].toLowerCase() + "' que mostrar!\n********************\n";
+        }
+        ts += "\n" + t[j] + "\n" + tipo[j];
+      }
+      return ts;
+    } else
+      return "No hay articulos almacenados";
+  }
+
+  // Pues sí hay que usarlo así, cambie el método a privado.
+  // Va
   private static <T> T[] ordenarAsc(T contactos[], java.util.Comparator<T> cmp) {
     T orden[] = contactos;
     for (int i = 0; i < orden.length; i++)
@@ -183,49 +259,49 @@ public class Directorio {
     return orden;
   }
 
-  public void actualizar(char cat, String nombre){
+  public void actualizar(char cat, String nombre) {
     Contacto contacto = buscar(cat, nombre);
-    if(contacto != null)
-      if(contacto instanceof Amigo)
-	actualizarAmigo(contacto);
-      else if(contacto instanceof Familiar)
-	actualizarFamiliar(contacto);
-      else if(contacto instanceof Cliente)
-	actualizarCliente(contacto);
-    else
-      out.println("\nEl contacto solicitado no existe!\n");
+    if (contacto != null)
+      if (contacto instanceof Amigo)
+        actualizarAmigo(contacto);
+      else if (contacto instanceof Familiar)
+        actualizarFamiliar(contacto);
+      else if (contacto instanceof Cliente)
+        actualizarCliente(contacto);
+      else
+        out.println("\nEl contacto solicitado no existe!\n");
   }
-  
-  private Contacto buscar(char c, String n){
-    if(!estaVacio()){
-      switch(c){
-	case 'a':
-	  for(int i = 0; i < na; i++)
-	    if(contactos[i] instanceof Amigo && contactos[i].getNombre().equals(n))
-	      return contactos[i];
-	  break;
-	case 'f':
-	  for(int i = 0; i < na; i++)
-	    if(contactos[i] instanceof Familiar && contactos[i].getNombre().equals(n))
-	      return contactos[i];
-	  break;
-	case 'c':
-	  for(int i = 0; i < na; i++)
-	    if(contactos[i] instanceof Cliente && contactos[i].getNombre().equals(n))
-	      return contactos[i];
-	  break;
+
+  private Contacto buscar(char c, String n) {
+    if (!estaVacio()) {
+      switch (c) {
+        case 'a':
+          for (int i = 0; i < na; i++)
+            if (contactos[i] instanceof Amigo && contactos[i].getNombre().equals(n))
+              return contactos[i];
+          break;
+        case 'f':
+          for (int i = 0; i < na; i++)
+            if (contactos[i] instanceof Familiar && contactos[i].getNombre().equals(n))
+              return contactos[i];
+          break;
+        case 'c':
+          for (int i = 0; i < na; i++)
+            if (contactos[i] instanceof Cliente && contactos[i].getNombre().equals(n))
+              return contactos[i];
+          break;
       }
       return null;
     } else
       return null;
   }
-  
-  private void actualizarAmigo(Contacto c){
+
+  private void actualizarAmigo(Contacto c) {
     int op;
     long an;
     String au;
     Amigo a = (Amigo) c;
-    do{
+    do {
       out.println("\nSelecciona el atributo que deseas modificar:");
       out.println("1. Nombre");
       out.println("2. Telefono");
@@ -238,67 +314,66 @@ public class Directorio {
       out.println("9. Salir");
       out.println("Escribe una opcion:");
       op = lector.nextInt();
-      switch(op){
-	case 1:
-	  out.println("\nEscribe el nombre de tu amigo");
-	  au = lector1.next().toUpperCase();
-	  a.setNombre(au);
-	  break;
-	case 2:
-	  out.println("\nEscribe el telefono de tu amigo");
-	  an = lector.nextLong();
-	  a.setTelefono(an);
-	  break;
-	case 3:
-	  out.println("\nEscribe el celular de tu amigo");
-	  an = lector.nextLong();
-	  a.setCelular(an);
-	  break;
-	case 4:
-	  out.println("\nEscribe el correo de tu amigo");
-	  au = lector1.next();
-	  a.setCorreo(au);
-	  break;
-	case 5:
-	  out.println("\nEcribe el apodo de tu amigo");
-	  au = lector1.next().toUpperCase();
-	  a.setApodo(au);
-	  break;
-	case 6:
-	  out.println("\nEscribe tu cumpleanios de tu amigo con el formato DD/MM/AAAA");
-	  au = lector1.next();
-	  try{
-	    a.setCumpleanios(new SimpleDateFormat(au));
-	  }
-	  catch(Exception e){
-	    err.println("Escribiste mal el cumpleaños de tu amigo");
-	  }
-	  break;
-	case 7:
-	  out.println("\nEcribe el facebook de tu amigo");
-	  au = lector1.next();
-	  a.setFacebook(au);
-	  break;
-	case 8:
-	  out.println("\nEcribe el twitter de tu amigo");
-	  au = lector1.next();
-	  a.setTwitter(au);
-	  break;
-	case 9:
-	  out.println("\nSaliendo de edicion de Amigo\n");
-	  break;
-	default:
-	  out.println("\nOpcion no valida\n");
-      }     
-    } while(op != 9);
+      switch (op) {
+        case 1:
+          out.println("\nEscribe el nombre de tu amigo");
+          au = lector1.next().toUpperCase();
+          a.setNombre(au);
+          break;
+        case 2:
+          out.println("\nEscribe el telefono de tu amigo");
+          an = lector.nextLong();
+          a.setTelefono(an);
+          break;
+        case 3:
+          out.println("\nEscribe el celular de tu amigo");
+          an = lector.nextLong();
+          a.setCelular(an);
+          break;
+        case 4:
+          out.println("\nEscribe el correo de tu amigo");
+          au = lector1.next();
+          a.setCorreo(au);
+          break;
+        case 5:
+          out.println("\nEcribe el apodo de tu amigo");
+          au = lector1.next().toUpperCase();
+          a.setApodo(au);
+          break;
+        case 6:
+          out.println("\nEscribe tu cumpleanios de tu amigo con el formato DD/MM/AAAA");
+          au = lector1.next();
+          try {
+            a.setCumpleanios(new SimpleDateFormat(au));
+          } catch (Exception e) {
+            err.println("Escribiste mal el cumpleaños de tu amigo");
+          }
+          break;
+        case 7:
+          out.println("\nEcribe el facebook de tu amigo");
+          au = lector1.next();
+          a.setFacebook(au);
+          break;
+        case 8:
+          out.println("\nEcribe el twitter de tu amigo");
+          au = lector1.next();
+          a.setTwitter(au);
+          break;
+        case 9:
+          out.println("\nSaliendo de edicion de Amigo\n");
+          break;
+        default:
+          out.println("\nOpcion no valida\n");
+      }
+    } while (op != 9);
   }
-  
-  private void actualizarFamiliar(Contacto c){
+
+  private void actualizarFamiliar(Contacto c) {
     int op;
     long an;
     String au;
     Familiar f = (Familiar) c;
-    do{
+    do {
       out.println("\nSelecciona el atributo que deseas modificar:");
       out.println("1. Nombre");
       out.println("2. Telefono");
@@ -307,47 +382,46 @@ public class Directorio {
       out.println("5. Salir");
       out.println("Escribe una opcion:");
       op = lector.nextInt();
-      switch(op){
-	case 1:
-	  out.println("\nEscribe el nombre de tu familiar");
-	  au = lector1.next().toUpperCase();
-	  f.setNombre(au);
-	  break;
-	case 2:
-	  out.println("\nEscribe el telefono de tu familiar");
-	  an = lector.nextLong();
-	  f.setTelefono(an);
-	  break;
-	case 3:
-	  out.println("\nEscribe el parentesco de tu familar");
-	  au = lector1.next().toUpperCase();
-	  f.setParentesco(au);
-	  break;
-	case 4:
-	  out.println("\nEscribe tu cumpleanios de tu familair con el formato DD/MM/AAAA");
-	  au = lector1.next();
-	  try{
-	    f.setCumpleanios(new SimpleDateFormat(au));
-	  }
-	  catch(Exception e){
-	    err.println("Escribiste mal el cumpleaños de tu familiar");
-	  }
-	  break;
-	case 5:
-	  out.println("\nSaliendo de edicion de Familar");
-	  break;
-	default:
-	  out.println("\nOpcion no valida\n");
-      }     
-    } while(op != 5);
+      switch (op) {
+        case 1:
+          out.println("\nEscribe el nombre de tu familiar");
+          au = lector1.next().toUpperCase();
+          f.setNombre(au);
+          break;
+        case 2:
+          out.println("\nEscribe el telefono de tu familiar");
+          an = lector.nextLong();
+          f.setTelefono(an);
+          break;
+        case 3:
+          out.println("\nEscribe el parentesco de tu familar");
+          au = lector1.next().toUpperCase();
+          f.setParentesco(au);
+          break;
+        case 4:
+          out.println("\nEscribe tu cumpleanios de tu familair con el formato DD/MM/AAAA");
+          au = lector1.next();
+          try {
+            f.setCumpleanios(new SimpleDateFormat(au));
+          } catch (Exception e) {
+            err.println("Escribiste mal el cumpleaños de tu familiar");
+          }
+          break;
+        case 5:
+          out.println("\nSaliendo de edicion de Familar");
+          break;
+        default:
+          out.println("\nOpcion no valida\n");
+      }
+    } while (op != 5);
   }
 
-  private void actualizarCliente(Contacto d){
+  private void actualizarCliente(Contacto d) {
     int op;
     long an;
     String au;
     Cliente c = (Cliente) d;
-    do{
+    do {
       out.println("\nSelecciona el atributo que deseas modificar:");
       out.println("1. Nombre");
       out.println("2. Telefono");
@@ -359,60 +433,59 @@ public class Directorio {
       out.println("8. Salir");
       out.println("Escribe una opcion:");
       op = lector.nextInt();
-      switch(op){
-	case 1:
-	  out.println("\nEscribe el nombre del cliente");
-	  au = lector1.next().toUpperCase();
-	  c.setNombre(au);
-	  break;
-	case 2:
-	  out.println("\nEscribe el telefono del cliente");
-	  an = lector.nextLong();
-	  c.setTelefono(an);
-	  break;
-	case 3:
-	  out.println("\nEscribe el celular del cliente");
-	  an = lector.nextLong();
-	  c.setCelular(an);
-	  break;
-	case 4:
-	  out.println("\nEscribe el correo del cliente");
-	  au = lector1.next();
-	  c.setCorreo(au);
-	  break;
-	case 5:
-	  out.println("\nEcribe la compania del cliente");
-	  au = lector1.next().toUpperCase();
-	  c.setCompania(au);
-	  break;
-	case 6:
-	  out.println("\nEscribe la extension del cliente");
-	  an = lector.nextLong();
-	  c.setExtension((int) an);
-	  break;
-	case 7:
-	  out.println("\nEcribe la pagina web del cliente");
-	  au = lector1.next();
-	  try{
-	    c.setWebpage(new URL(au));
-	  }
-	  catch(Exception e){
-	    err.println("Ocurrio un error al guardar la pagina web del cliente");
-	  }
-	  break;
-	case 8:
-	  out.println("\nSaliendo de edicion de Amigo\n");
-	  break;
-	default:
-	  out.println("\nOpcion no valida\n");
-      }     
-    } while(op != 8);
+      switch (op) {
+        case 1:
+          out.println("\nEscribe el nombre del cliente");
+          au = lector1.next().toUpperCase();
+          c.setNombre(au);
+          break;
+        case 2:
+          out.println("\nEscribe el telefono del cliente");
+          an = lector.nextLong();
+          c.setTelefono(an);
+          break;
+        case 3:
+          out.println("\nEscribe el celular del cliente");
+          an = lector.nextLong();
+          c.setCelular(an);
+          break;
+        case 4:
+          out.println("\nEscribe el correo del cliente");
+          au = lector1.next();
+          c.setCorreo(au);
+          break;
+        case 5:
+          out.println("\nEcribe la compania del cliente");
+          au = lector1.next().toUpperCase();
+          c.setCompania(au);
+          break;
+        case 6:
+          out.println("\nEscribe la extension del cliente");
+          an = lector.nextLong();
+          c.setExtension((int) an);
+          break;
+        case 7:
+          out.println("\nEcribe la pagina web del cliente");
+          au = lector1.next();
+          try {
+            c.setWebpage(new URL(au));
+          } catch (Exception e) {
+            err.println("Ocurrio un error al guardar la pagina web del cliente");
+          }
+          break;
+        case 8:
+          out.println("\nSaliendo de edicion de Amigo\n");
+          break;
+        default:
+          out.println("\nOpcion no valida\n");
+      }
+    } while (op != 8);
   }
 
   private void crecerArreglo(int n) {
     int nuevoTam = contactos.length + n;
     Contacto cont[] = new Contacto[nuevoTam];
-    for (i = 0; i < contactos.length; i++) {
+    for (int i = 0; i < contactos.length; i++) {
       cont[i] = contactos[i];
     }
     contactos = cont;
@@ -421,7 +494,7 @@ public class Directorio {
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
     if (!estaVacio())
-      for (i = 0; i < na; i++)
+      for (int i = 0; i < na; i++)
         if (nombre.equals(contactos[i].getNombre())) {
           respuesta = true;
           break;
