@@ -10,16 +10,16 @@
  * @version Septiembre 2020
  */
 public class ContactoCC extends Contacto {
-    private Long celular;
+    private long celular;
     private String correo;
 
-    public ContactoCC(String nombre, Long telefono, Long celular, String correo) {
+    public ContactoCC(String nombre, long telefono, long celular, String correo) {
         super(nombre, telefono);
         this.celular = celular;
         this.correo = correo;
     }
 
-    public Long getCelular() {
+    public long getCelular() {
         return celular;
     }
 
@@ -27,7 +27,7 @@ public class ContactoCC extends Contacto {
         return correo;
     }
 
-    public void setCelular(Long celular) {
+    public void setCelular(long celular) {
         this.celular = celular;
     }
 

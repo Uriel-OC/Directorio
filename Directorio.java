@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import static java.lang.System.*;
 
+//Importando bibliotecas necesarias para algunos parametros
+import java.text.SimpleDateFormat;
+import java.net.*;
+
 public class Directorio {
   private Contacto contactos[];
   private int na, i;
@@ -44,7 +48,6 @@ public class Directorio {
           borro = true;
           out.println("Contacto eliminado con exito!");
           break;
-
         }
       }
       if (i == na && !borro)
@@ -166,10 +169,9 @@ public class Directorio {
     else
       out.println("\nClientes de la compania" + compania + ":\n" + clientes);
   }
-
-  // Al chile este se me hace una mamada pero segun me acuerdo hay que usar el
-  // comparator
-  public static <T> T[] ordenarAsc(T contactos[], java.util.Comparator<T> cmp) {
+  
+  //Pues sí hay que usarlo así, cambie el método a privado
+  private static <T> T[] ordenarAsc(T contactos[], java.util.Comparator<T> cmp) {
     T orden[] = contactos;
     for (int i = 0; i < orden.length; i++)
       for (int j = i + 1; j < orden.length; j++)
@@ -179,6 +181,232 @@ public class Directorio {
           orden[j] = temp;
         }
     return orden;
+  }
+
+  public void actualizar(char cat, String nombre){
+    Contacto contacto = buscar(cat, nombre);
+    if(contacto != null)
+      if(contacto instanceof Amigo)
+	actualizarAmigo(contacto);
+      else if(contacto instanceof Familiar)
+	actualizarFamiliar(contacto);
+      else if(contacto instanceof Cliente)
+	actualizarCliente(contacto);
+    else
+      out.println("\nEl contacto solicitado no existe!\n");
+  }
+  
+  private Contacto buscar(char c, String n){
+    if(!estaVacio()){
+      switch(c){
+	case 'a':
+	  for(int i = 0; i < na; i++)
+	    if(contactos[i] instanceof Amigo && contactos[i].getNombre().equals(n))
+	      return contactos[i];
+	  break;
+	case 'f':
+	  for(int i = 0; i < na; i++)
+	    if(contactos[i] instanceof Familiar && contactos[i].getNombre().equals(n))
+	      return contactos[i];
+	  break;
+	case 'c':
+	  for(int i = 0; i < na; i++)
+	    if(contactos[i] instanceof Cliente && contactos[i].getNombre().equals(n))
+	      return contactos[i];
+	  break;
+      }
+      return null;
+    } else
+      return null;
+  }
+  
+  private void actualizarAmigo(Contacto c){
+    int op;
+    long an;
+    String au;
+    Amigo a = (Amigo) c;
+    do{
+      out.println("\nSelecciona el atributo que deseas modificar:");
+      out.println("1. Nombre");
+      out.println("2. Telefono");
+      out.println("3. Celular");
+      out.println("4. Correo");
+      out.println("5. Apodo");
+      out.println("6. Cumpleanios");
+      out.println("7. Facebook");
+      out.println("8. Twitter");
+      out.println("9. Salir");
+      out.println("Escribe una opcion:");
+      op = lector.nextInt();
+      switch(op){
+	case 1:
+	  out.println("\nEscribe el nombre de tu amigo");
+	  au = lector1.next().toUpperCase();
+	  a.setNombre(au);
+	  break;
+	case 2:
+	  out.println("\nEscribe el telefono de tu amigo");
+	  an = lector.nextLong();
+	  a.setTelefono(an);
+	  break;
+	case 3:
+	  out.println("\nEscribe el celular de tu amigo");
+	  an = lector.nextLong();
+	  a.setCelular(an);
+	  break;
+	case 4:
+	  out.println("\nEscribe el correo de tu amigo");
+	  au = lector1.next();
+	  a.setCorreo(au);
+	  break;
+	case 5:
+	  out.println("\nEcribe el apodo de tu amigo");
+	  au = lector1.next().toUpperCase();
+	  a.setApodo(au);
+	  break;
+	case 6:
+	  out.println("\nEscribe tu cumpleanios de tu amigo con el formato DD/MM/AAAA");
+	  au = lector1.next();
+	  try{
+	    a.setCumpleanios(new SimpleDateFormat(au));
+	  }
+	  catch(Exception e){
+	    err.println("Escribiste mal el cumpleaños de tu amigo");
+	  }
+	  break;
+	case 7:
+	  out.println("\nEcribe el facebook de tu amigo");
+	  au = lector1.next();
+	  a.setFacebook(au);
+	  break;
+	case 8:
+	  out.println("\nEcribe el twitter de tu amigo");
+	  au = lector1.next();
+	  a.setTwitter(au);
+	  break;
+	case 9:
+	  out.println("\nSaliendo de edicion de Amigo\n");
+	  break;
+	default:
+	  out.println("\nOpcion no valida\n");
+      }     
+    } while(op != 9);
+  }
+  
+  private void actualizarFamiliar(Contacto c){
+    int op;
+    long an;
+    String au;
+    Familiar f = (Familiar) c;
+    do{
+      out.println("\nSelecciona el atributo que deseas modificar:");
+      out.println("1. Nombre");
+      out.println("2. Telefono");
+      out.println("3. Parentesco");
+      out.println("4. Cumpleanios");
+      out.println("5. Salir");
+      out.println("Escribe una opcion:");
+      op = lector.nextInt();
+      switch(op){
+	case 1:
+	  out.println("\nEscribe el nombre de tu familiar");
+	  au = lector1.next().toUpperCase();
+	  f.setNombre(au);
+	  break;
+	case 2:
+	  out.println("\nEscribe el telefono de tu familiar");
+	  an = lector.nextLong();
+	  f.setTelefono(an);
+	  break;
+	case 3:
+	  out.println("\nEscribe el parentesco de tu familar");
+	  au = lector1.next().toUpperCase();
+	  f.setParentesco(au);
+	  break;
+	case 4:
+	  out.println("\nEscribe tu cumpleanios de tu familair con el formato DD/MM/AAAA");
+	  au = lector1.next();
+	  try{
+	    f.setCumpleanios(new SimpleDateFormat(au));
+	  }
+	  catch(Exception e){
+	    err.println("Escribiste mal el cumpleaños de tu familiar");
+	  }
+	  break;
+	case 5:
+	  out.println("\nSaliendo de edicion de Familar");
+	  break;
+	default:
+	  out.println("\nOpcion no valida\n");
+      }     
+    } while(op != 5);
+  }
+
+  private void actualizarCliente(Contacto d){
+    int op;
+    long an;
+    String au;
+    Cliente c = (Cliente) d;
+    do{
+      out.println("\nSelecciona el atributo que deseas modificar:");
+      out.println("1. Nombre");
+      out.println("2. Telefono");
+      out.println("3. Celular");
+      out.println("4. Correo");
+      out.println("5. Compania");
+      out.println("6. Extension");
+      out.println("7. Pagina web");
+      out.println("8. Salir");
+      out.println("Escribe una opcion:");
+      op = lector.nextInt();
+      switch(op){
+	case 1:
+	  out.println("\nEscribe el nombre del cliente");
+	  au = lector1.next().toUpperCase();
+	  c.setNombre(au);
+	  break;
+	case 2:
+	  out.println("\nEscribe el telefono del cliente");
+	  an = lector.nextLong();
+	  c.setTelefono(an);
+	  break;
+	case 3:
+	  out.println("\nEscribe el celular del cliente");
+	  an = lector.nextLong();
+	  c.setCelular(an);
+	  break;
+	case 4:
+	  out.println("\nEscribe el correo del cliente");
+	  au = lector1.next();
+	  c.setCorreo(au);
+	  break;
+	case 5:
+	  out.println("\nEcribe la compania del cliente");
+	  au = lector1.next().toUpperCase();
+	  c.setCompania(au);
+	  break;
+	case 6:
+	  out.println("\nEscribe la extension del cliente");
+	  an = lector.nextLong();
+	  c.setExtension((int) an);
+	  break;
+	case 7:
+	  out.println("\nEcribe la pagina web del cliente");
+	  au = lector1.next();
+	  try{
+	    c.setWebpage(new URL(au));
+	  }
+	  catch(Exception e){
+	    err.println("Ocurrio un error al guardar la pagina web del cliente");
+	  }
+	  break;
+	case 8:
+	  out.println("\nSaliendo de edicion de Amigo\n");
+	  break;
+	default:
+	  out.println("\nOpcion no valida\n");
+      }     
+    } while(op != 8);
   }
 
   private void crecerArreglo(int n) {
@@ -200,5 +428,4 @@ public class Directorio {
         }
     return respuesta;
   }
-
 }

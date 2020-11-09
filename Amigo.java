@@ -17,7 +17,7 @@ public class Amigo extends ContactoCC {
     private String facebook;
     private String twitter;
 
-    public Amigo(String nombre, Long telefono, Long celular, String correo, String apodo, SimpleDateFormat cumpleanios,
+    public Amigo(String nombre, long telefono, long celular, String correo, String apodo, SimpleDateFormat cumpleanios,
             String facebook, String twitter) {
         super(nombre, telefono, celular, correo);
         this.apodo = apodo;

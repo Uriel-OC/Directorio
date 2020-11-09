@@ -12,9 +12,9 @@
 
 class Contacto {
     private String nombre;
-    private Long telefono;
+    private long telefono;
 
-    public Contacto(String nombre, Long telefono) {
+    public Contacto(String nombre, long telefono) {
         this.nombre = nombre;
         this.telefono = telefono;
     }
@@ -23,7 +23,7 @@ class Contacto {
         return nombre;
     }
 
-    public Long getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
 
@@ -31,7 +31,7 @@ class Contacto {
         this.nombre = nombre;
     }
 
-    public void setTelefono(Long telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

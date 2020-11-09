@@ -15,7 +15,7 @@ public class Cliente extends ContactoCC {
     private int extension;
     private URL webpage;
 
-    public Cliente(String nombre, Long telefono, Long celular, String correo, String compania, int extension,
+    public Cliente(String nombre, long telefono, long celular, String correo, String compania, int extension,
             URL webpage) {
         super(nombre, telefono, celular, correo);
         this.compania = compania;
