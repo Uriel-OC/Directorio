@@ -3,7 +3,7 @@ import static java.lang.System.*;
 
 //Importando bibliotecas necesarias para algunos parametros
 import java.text.SimpleDateFormat;
-import java.net.*;
+import java.net.URL;
 
 public class Directorio {
   private Contacto contactos[];
