@@ -2,12 +2,12 @@ import java.util.Scanner;
 import static java.lang.System.*;
 
 //Importando bibliotecas necesarias para algunos parametros
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.net.URL;
 
 public class Directorio {
   private Contacto contactos[];
-  private int na;
+  private int na, dayOfMonth, year, month;
   private Scanner lector;
   private Scanner lector1;
 
@@ -341,12 +341,20 @@ public class Directorio {
           a.setApodo(au);
           break;
         case 6:
-          out.println("\nEscribe tu cumpleanios de tu amigo con el formato DD/MM/AAAA");
-          au = lector1.next();
+          out.println(
+              "\nEscribe la nueva fecha" + "Ingresa los datos comforme se te pide" + "(Utilice solo valores enteros)");
+          out.print("Ingrese el dia:");
+          dayOfMonth = lector.nextInt();
+          out.print("Ingrese el mes:");
+          month = lector.nextInt();
+          out.print("Ingrese el anio:");
+          year = lector.nextInt();
           try {
-            a.setCumpleanios(new SimpleDateFormat(au));
+            LocalDate cum = LocalDate.of(year, month, dayOfMonth);
+            a.setCumpleanios(cum);
+            out.println("Validacion Exitosa");
           } catch (Exception e) {
-            err.println("Escribiste mal el cumpleaños de tu amigo");
+            err.println("\nFecha Invalida!!!");
           }
           break;
         case 7:
@@ -399,12 +407,20 @@ public class Directorio {
           f.setParentesco(au);
           break;
         case 4:
-          out.println("\nEscribe tu cumpleanios de tu familair con el formato DD/MM/AAAA");
-          au = lector1.next();
+          out.println(
+              "\nEscribe la nueva fecha" + "Ingresa los datos comforme se te pide" + "(Utilice solo valores enteros)");
+          out.print("Ingrese el dia:");
+          dayOfMonth = lector.nextInt();
+          out.print("Ingrese el mes:");
+          month = lector.nextInt();
+          out.print("Ingrese el anio:");
+          year = lector.nextInt();
           try {
-            f.setCumpleanios(new SimpleDateFormat(au));
+            LocalDate cum = LocalDate.of(year, month, dayOfMonth);
+            f.setCumpleanios(cum);
+            out.println("Validacion Exitosa");
           } catch (Exception e) {
-            err.println("Escribiste mal el cumpleaños de tu familiar");
+            err.println("\nFecha Invalida!!!");
           }
           break;
         case 5:

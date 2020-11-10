@@ -1,4 +1,4 @@
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 /**
  * Clase para definir un Contacto
@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
  */
 public class Familiar extends Contacto {
     private String parentesco;
-    private SimpleDateFormat cumpleanios;
+    private LocalDate cumpleanios;
 
-    public Familiar(String nombre, long telefono, String parentesco, SimpleDateFormat cumpleanios) {
+    public Familiar(String nombre, long telefono, String parentesco, LocalDate cumpleanios) {
         super(nombre, telefono);
         this.parentesco = parentesco;
         this.cumpleanios = cumpleanios;
@@ -22,7 +22,7 @@ public class Familiar extends Contacto {
         return parentesco;
     }
 
-    public SimpleDateFormat getCumpleanios() {
+    public LocalDate getCumpleanios() {
         return cumpleanios;
     }
 
@@ -30,7 +30,7 @@ public class Familiar extends Contacto {
         this.parentesco = parentesco;
     }
 
-    public void setCumpleanios(SimpleDateFormat cumpleanios) {
+    public void setCumpleanios(LocalDate cumpleanios) {
         this.cumpleanios = cumpleanios;
     }
 

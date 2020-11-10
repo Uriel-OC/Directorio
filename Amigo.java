@@ -1,4 +1,7 @@
-import java.text.SimpleDateFormat;
+
+import java.time.LocalDate;
+
+
 
 /**
  * Clase para definir un Contacto
@@ -13,11 +16,11 @@ import java.text.SimpleDateFormat;
  */
 public class Amigo extends ContactoCC {
     private String apodo;
-    private SimpleDateFormat cumpleanios;
+    private LocalDate cumpleanios;
     private String facebook;
     private String twitter;
 
-    public Amigo(String nombre, long telefono, long celular, String correo, String apodo, SimpleDateFormat cumpleanios,
+    public Amigo(String nombre, long telefono, long celular, String correo, String apodo, LocalDate cumpleanios,
             String facebook, String twitter) {
         super(nombre, telefono, celular, correo);
         this.apodo = apodo;
@@ -30,7 +33,7 @@ public class Amigo extends ContactoCC {
         return apodo;
     }
 
-    public SimpleDateFormat getCumpleanios() {
+    public LocalDate getCumpleanios() {
         return cumpleanios;
     }
 
@@ -46,7 +49,7 @@ public class Amigo extends ContactoCC {
         this.apodo = apodo;
     }
 
-    public void setCumpleanios(SimpleDateFormat cumpleanios) {
+    public void setCumpleanios(LocalDate cumpleanios) {
         this.cumpleanios = cumpleanios;
     }
 
@@ -60,7 +63,7 @@ public class Amigo extends ContactoCC {
 
     @Override
     public String toString() {
-        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: " + facebook
-                + "\nTwitter:" + twitter;
+        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: "
+                + facebook + "\nTwitter:" + twitter;
     }
 }
