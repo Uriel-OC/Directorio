@@ -1,7 +1,4 @@
-
 import java.time.LocalDate;
-
-
 
 /**
  * Clase para definir un Contacto
@@ -64,6 +61,6 @@ public class Amigo extends ContactoCC {
     @Override
     public String toString() {
         return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: "
-                + facebook + "\nTwitter:" + twitter;
+                + facebook + "\nTwitter: " + twitter;
     }
 }

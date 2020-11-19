@@ -36,6 +36,6 @@ public class Familiar extends Contacto {
 
     @Override
     public String toString() {
-        return super.toString() + "\nParentesco: " + parentesco + "Cumpleanios: " + cumpleanios;
+        return super.toString() + "\nParentesco: " + parentesco + "\nCumpleanios: " + cumpleanios;
     }
 }

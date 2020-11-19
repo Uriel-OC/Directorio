@@ -1,4 +1,4 @@
-import java.net.*;
+import java.net.URL;
 
 /**
  * Clase para definir un Contacto
@@ -13,10 +13,10 @@ import java.net.*;
  */
 public class Cliente extends ContactoCC {
     private String compania;
-    private int extension;
+    private String extension;
     private URL webpage;
 
-    public Cliente(String nombre, long telefono, long celular, String correo, String compania, int extension,
+    public Cliente(String nombre, long telefono, long celular, String correo, String compania, String extension,
             URL webpage) {
         super(nombre, telefono, celular, correo);
         this.compania = compania;
@@ -28,7 +28,7 @@ public class Cliente extends ContactoCC {
         return compania;
     }
 
-    public int getExtension() {
+    public String getExtension() {
         return extension;
     }
 
@@ -40,7 +40,7 @@ public class Cliente extends ContactoCC {
         this.compania = compania;
     }
 
-    public void setExtension(int extension) {
+    public void setExtension(String extension) {
         this.extension = extension;
     }
 
@@ -50,6 +50,6 @@ public class Cliente extends ContactoCC {
 
     @Override
     public String toString() {
-        return super.toString() + "\nCompania: " + compania + "Extension: " + extension + "Pagina web: " + webpage;
+        return super.toString() + "\nCompania: " + compania + "\nExtension: " + extension + "\nPagina web: " + webpage;
     }
 }

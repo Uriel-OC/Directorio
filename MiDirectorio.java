@@ -4,7 +4,9 @@ import java.util.*;
 
 //Importando bibliotecas para algunos parametros
 import java.time.LocalDate;
+import java.time.DateTimeException;
 import java.net.URL;
+import java.net.MalformedURLException;
 
 public class MiDirectorio {
 	public static void main(String[] args) {
@@ -25,7 +27,8 @@ public class MiDirectorio {
 			out.println("Directorio virtual creado");
 		} catch (Exception e) {
 			direct = new Directorio();
-			out.println("Directorio' virtual creado por omision");
+			err.println("Has ingresado un valor incompatible");
+			out.println("Se ha creado un directorio por omision");
 		}
 		do {
 			out.println("\n******* MENU PRINCIPAL *******");
@@ -49,111 +52,117 @@ public class MiDirectorio {
 						op = lector1.next().toLowerCase().charAt(0);
 						switch (op) {
 							case 'a':
-								out.println("Perfecto! Agreguemos un Amigo");
-								out.println("A continuacion ingrese los siguientes datos: ");
-								// nombre
-								out.println("Ingrese el nombre de tu amigo (Omita los acentos)");
-								nombre = lector1.next().toUpperCase();
-								// telefono
-								out.println("Ingrese el telefono de tu amigo");
-								telefono = lector.nextLong();
-								// celular
-								out.println("Ingrese el celular de tu amigo");
-								celular = lector.nextLong();
-								// correo
-								out.println("Ingresa el correo de tu amigo");
-								correo = lector1.next();
-								// apodo
-								out.println("Ingresa el apodo de tu amigo");
-								cad1 = lector1.next().toUpperCase();
-								// cumpleanios
-								out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
-								out.print("Ingrese el dia:");
-								dayOfMonth = lector.nextInt();
-								out.print("Ingrese el mes:");
-								month = lector.nextInt();
-								out.print("Ingrese el anio:");
-								year = lector.nextInt();
+							out.println("Perfecto! Agreguemos un Amigo");
 								try {
+									out.println("A continuacion ingrese los siguientes datos: ");
+									// nombre
+									out.println("Ingrese el nombre de tu amigo (Omita los acentos)");
+									nombre = lector1.next().toUpperCase();
+									// telefono
+									out.println("Ingrese el telefono de tu amigo");
+									telefono = lector.nextLong();
+									// celular
+									out.println("Ingrese el celular de tu amigo");
+									celular = lector.nextLong();
+									// correo
+									out.println("Ingresa el correo de tu amigo");
+									correo = lector1.next();
+									// apodo
+									out.println("Ingresa el apodo de tu amigo");
+									cad1 = lector1.next().toUpperCase();
+									// cumpleanios
+									out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
+									out.print("Ingrese el dia:");
+									dayOfMonth = lector.nextInt();
+									out.print("Ingrese el mes:");
+									month = lector.nextInt();
+									out.print("Ingrese el anio:");
+									year = lector.nextInt();
 									cumpleanios = LocalDate.of(year, month, dayOfMonth);
-									out.println("Validacion Exitosa");
-								} catch (Exception e) {
-									err.println("\nFecha Invalida!!!");
+									// facebook
+									out.println("Ingresa el facebook de tu amigo");
+									cad2 = lector1.next();
+									// twitter
+									out.println("Ingresa el twitter de tu amigo");
+									cad3 = lector1.next();
+									direct.agregar(
+											new Amigo(nombre, telefono, celular, correo, cad1, cumpleanios , cad2, cad3));
+									out.println("Amigo agregado con exito");
+									break;
+								} catch(InputMismatchException e){
+									err.println("Has escrito un valor incopatible");
+									break;
+								} catch(DateTimeException d){
+									err.println("Ingresaste una fecha incorrecta");
 									break;
 								}
-								// facebook
-								out.println("Ingresa el facebook de tu amigo");
-								cad2 = lector1.next();
-								// twitter
-								out.println("Ingresa el twitter de tu amigo");
-								cad3 = lector1.next();
-								direct.agregar(
-										new Amigo(nombre, telefono, celular, correo, cad1, cumpleanios , cad2, cad3));
-								out.println("Amigo agregado con exito");
-								break;
 							case 'b':
 								out.println("Perfecto! Agreguemos un Familiar");
-								out.println("A continuacion ingrese los siguientes datos: ");
-								// nombre
-								out.println("Ingrese el nombre de tu familiar");
-								nombre = lector1.next().toUpperCase();
-								// telefono
-								out.println("Ingrese el telefono de tu familiar");
-								telefono = lector.nextLong();
-								// parentesco
-								out.println("Ingrese el parentesco de tu familiar");
-								cad1 = lector1.next().toUpperCase();
-								// cumpleanios
-								out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
-								out.print("Ingrese el dia:");
-								dayOfMonth = lector.nextInt();
-								out.print("Ingrese el mes:");
-								month = lector.nextInt();
-								out.print("Ingrese el anio:");
-								year = lector.nextInt();
-								try {
+								try{
+									out.println("A continuacion ingrese los siguientes datos: ");
+									// nombre
+									out.println("Ingrese el nombre de tu familiar");
+									nombre = lector1.next().toUpperCase();
+									// telefono
+									out.println("Ingrese el telefono de tu familiar");
+									telefono = lector.nextLong();
+									// parentesco
+									out.println("Ingrese el parentesco de tu familiar");
+									cad1 = lector1.next().toUpperCase();
+									// cumpleanios
+									out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
+									out.print("Ingrese el dia:");
+									dayOfMonth = lector.nextInt();
+									out.print("Ingrese el mes:");
+									month = lector.nextInt();
+									out.print("Ingrese el anio:");
+									year = lector.nextInt();
 									cumpleanios = LocalDate.of(year, month, dayOfMonth);
-									out.println("Validacion Exitosa");
-								} catch (Exception e) {
-									err.println("\nFecha Invalida!!!");
+									direct.agregar(new Familiar(nombre, telefono, cad1, cumpleanios));
+									out.println("Familiar agregado con exito");
+									break;
+								} catch(InputMismatchException e) {
+									err.println("Has escrito un valor incopatible");
+								} catch (DateTimeException d) {
+									err.println("Ingresaste una fecha incorrecta");
 									break;
 								}
-								direct.agregar(new Familiar(nombre, telefono, cad1, cumpleanios));
-								out.println("Familiar agregado con exito");
-								break;
 							case 'c':
 								out.println("Perfecto! Agreguemos un Cliente");
-								out.println("A continuacion ingrese los siguientes datos: ");
-								// nombre
-								out.println("Ingrese el nombre del cliente");
-								nombre = lector1.next().toUpperCase();
-								// telefono
-								out.println("Ingrese el telefono del cliente");
-								telefono = lector.nextLong();
-								// celular
-								out.println("Ingrese el celular del cliente");
-								celular = lector.nextLong();
-								// correo
-								out.println("Ingresa el correo del cliente");
-								correo = lector1.next();
-								// compania
-								out.println("Ingresa la compania del cliente");
-								cad1 = lector1.next().toUpperCase();
-								// extension
-								out.println("Ingresa la extension del cliente");
-								entero = lector.nextInt();
-								// webpage
-								out.println("Ingresa la pagina web del cliente");
-								cad2 = lector1.next();
-								try {
-									webpage = new URL(cad2);
-								} catch (Exception e) {
+								try{
+									out.println("A continuacion ingrese los siguientes datos:");
+									// nombre
+									out.println("Ingrese el nombre del cliente");
+									nombre = lector1.next().toUpperCase();
+									// telefono
+									out.println("Ingrese el telefono del cliente");
+									telefono = lector.nextLong();
+									// celular
+									out.println("Ingrese el celular del cliente");
+									celular = lector.nextLong();
+									// correo
+									out.println("Ingresa el correo del cliente");
+									correo = lector1.next();
+									// compania
+									out.println("Ingresa la compania del cliente");
+									cad1 = lector1.next().toUpperCase();
+									// extension
+									out.println("Ingresa la extension del cliente");
+									cad2 = lector.next();
+									// webpage
+									out.println("Ingresa la pagina web del cliente");
+									cad3 = lector1.next();
+									webpage = new URL(cad3);
+									direct.agregar(new Cliente(nombre, telefono, celular, correo, cad1, cad2, webpage));
+									out.println("Cliente agregado con exito");
+									break;
+								}catch(InputMismatchException e){
+									err.println("Has ingresado un valor incopatible");
+									break;
+								}catch(MalformedURLException m){
 									err.println("Ocurrio un error guardando la pagina web");
 									break;
 								}
-								direct.agregar(new Cliente(nombre, telefono, celular, correo, cad1, entero, webpage));
-								out.println("Cliente agregado con exito");
-								break;
 							case 'd':
 								out.println("Regresando al menu principal...");
 								break;
@@ -201,6 +210,7 @@ public class MiDirectorio {
 						out.println("e. Buscar todos los clientes de una compania determinada");
 						out.println("f. Buscar un contacto a partir del telefono");
 						out.println("g. Regresar al menu principal");
+						out.print("Opcion seeccionada: ");
 						op = lector1.next().toLowerCase().charAt(0);
 						switch (op) {
 							case 'a':

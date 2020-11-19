@@ -84,8 +84,8 @@ public class Directorio {
     if (!estaVacio()) {
       for (int i = 0; i < na; i++)
         if (nombre.equals(contactos[i].getNombre())) {
-          out.println("\nResultado de la busqueda: \n" + contactos[i].toString());// Aqui no se si sea necesario el
-                                                                                  // .toString()
+          con = contactos[i].toString();
+          out.println("\nResultado de la busqueda: \n" + con);
           break;
         }
       if (con.equals(""))
@@ -138,11 +138,12 @@ public class Directorio {
     String clientes = "";
     int i;
     if (!estaVacio()) {
-      for (i = 0; i < na; i++)
+      for (i = 0; i < na; i++){
         if (contactos[i] instanceof Amigo && !((Amigo) contactos[i]).getCorreo().equals(""))
           amigos += ((Amigo) contactos[i]).toString() + "\n**************\n";
-      if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
-        clientes += ((Cliente) contactos[i]).toString() + "\n**************\n";
+        if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
+          clientes += ((Cliente) contactos[i]).toString() + "\n**************\n";
+      }
     }
     if (amigos.equals(""))
       out.println("No hay amigos que mostrar :(\n");
@@ -168,7 +169,7 @@ public class Directorio {
     if (clientes.equals(""))
       out.println("\nNo hay clientes que mostrar :(\n");
     else
-      out.println("\nClientes de la compania" + compania.toUpperCase() + ":\n" + clientes);
+      out.println("\n Clientes de la compania " + compania.toUpperCase() + ":\n" + clientes);
   }
 
   public void mostrarDet(char cat) {
@@ -186,7 +187,7 @@ public class Directorio {
             if (cont[i] instanceof Familiar)// Lo encontro
               det += ((Familiar) cont[i]).toString() + "\n********************\n";
             break;
-          case 'C': // Es una Cliente
+          case 'C': // Es un Cliente
             if (cont[i] instanceof Cliente)// Lo encontro
               det += ((Cliente) cont[i]).toString() + "\n********************\n";
             break;
@@ -197,7 +198,7 @@ public class Directorio {
         if (cat == (t[i].charAt(0)) && det.equals(""))
           out.println("No hay '" + t[i] + "' que mostrar\n");
         if (cat == (t[i].charAt(0)))
-          out.println("******" + t[i] + "********" + det);
+          out.println("******" + t[i] + "********\n" + det);
       }
     } // Fin if(!estaVacio)
     else
@@ -209,8 +210,8 @@ public class Directorio {
     if (!estaVacio()) {
       for (int i = 0; i < na; i++)
         if (t == contactos[i].getTelefono()) {
-          out.println("\nResultado de la busqueda: \n" + contactos[i].toString());// Aqui no se si sea necesario el
-                                                                                  // .toString()
+          con = contactos[i].toString();
+          out.println("\nResultado de la busqueda: \n" + con);
           break;
         }
       if (con.equals(""))
@@ -261,15 +262,16 @@ public class Directorio {
 
   public void actualizar(char cat, String nombre) {
     Contacto contacto = buscar(cat, nombre);
-    if (contacto != null)
+    if (contacto != null){
       if (contacto instanceof Amigo)
         actualizarAmigo(contacto);
       else if (contacto instanceof Familiar)
         actualizarFamiliar(contacto);
       else if (contacto instanceof Cliente)
         actualizarCliente(contacto);
-      else
-        out.println("\nEl contacto solicitado no existe!\n");
+    } 
+    else
+      out.println("\nEl contacto solicitado no existe!\n");
   }
 
   private Contacto buscar(char c, String n) {
@@ -477,8 +479,8 @@ public class Directorio {
           break;
         case 6:
           out.println("\nEscribe la extension del cliente");
-          an = lector.nextLong();
-          c.setExtension((int) an);
+          au = lector.next();
+          c.setExtension(au);
           break;
         case 7:
           out.println("\nEcribe la pagina web del cliente");
