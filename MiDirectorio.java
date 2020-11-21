@@ -256,8 +256,10 @@ public class MiDirectorio {
 								break;
 							case 'g':
 								out.println("Regresando al menu principal...");
+								break;
 							default:
 								out.println("Opcion invalida!");
+								break;
 						}
 					} while (op != 'g');
 					break;
