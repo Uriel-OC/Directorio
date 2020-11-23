@@ -1,4 +1,3 @@
-import java.net.URL;
 
 /**
  * Clase para definir un Contacto
@@ -14,10 +13,9 @@ import java.net.URL;
 public class Cliente extends ContactoCC {
     private String compania;
     private String extension;
-    private URL webpage;
-
+    private String webpage;
     public Cliente(String nombre, long telefono, long celular, String correo, String compania, String extension,
-            URL webpage) {
+            String webpage) {
         super(nombre, telefono, celular, correo);
         this.compania = compania;
         this.extension = extension;
@@ -32,7 +30,7 @@ public class Cliente extends ContactoCC {
         return extension;
     }
 
-    public URL getWebpage() {
+    public String getWebpage() {
         return webpage;
     }
 
@@ -44,7 +42,7 @@ public class Cliente extends ContactoCC {
         this.extension = extension;
     }
 
-    public void setWebpage(URL webpage) {
+    public void setWebpage(String webpage) {
         this.webpage = webpage;
     }
 

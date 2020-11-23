@@ -1,12 +1,9 @@
 import static java.lang.System.*;
 import java.util.*;
 
-
 //Importando bibliotecas para algunos parametros
-import java.time.LocalDate;
-import java.time.DateTimeException;
-import java.net.URL;
-import java.net.MalformedURLException;
+import java.time.*;
+import java.util.regex.*;
 
 public class MiDirectorio {
 	public static void main(String[] args) {
@@ -17,8 +14,9 @@ public class MiDirectorio {
 		String cad1, cad2, cad3, nombre, correo;
 		char opcion, op;
 		long telefono, celular;
+		Pattern pat;
+		Matcher mat;
 		LocalDate cumpleanios;
-		URL webpage;
 		out.println("\n***** INICIO *****");
 		out.print("\nIngresa el numero inicial de comtactos a almacenar: ");
 		try {
@@ -52,7 +50,7 @@ public class MiDirectorio {
 						op = lector1.next().toLowerCase().charAt(0);
 						switch (op) {
 							case 'a':
-							out.println("Perfecto! Agreguemos un Amigo");
+								out.println("Perfecto! Agreguemos un Amigo");
 								try {
 									out.println("A continuacion ingrese los siguientes datos: ");
 									// nombre
@@ -67,38 +65,50 @@ public class MiDirectorio {
 									// correo
 									out.println("Ingresa el correo de tu amigo");
 									correo = lector1.next();
+									pat = Pattern.compile(
+											"^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+									mat = pat.matcher(correo);
+									if (!mat.find()) {
+										throw new InputMismatchException();
+									}
 									// apodo
 									out.println("Ingresa el apodo de tu amigo");
 									cad1 = lector1.next().toUpperCase();
 									// cumpleanios
-									out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
-									out.print("Ingrese el dia:");
+									out.println("Ingresa la fecha del cumpleanios de tu amigo"
+											+ " (Utilice solo valores enteros)");
+									out.print("Ingrese el dia: ");
 									dayOfMonth = lector.nextInt();
-									out.print("Ingrese el mes:");
+									out.print("Ingrese el mes: ");
 									month = lector.nextInt();
-									out.print("Ingrese el anio:");
+									out.print("Ingrese el anio: ");
 									year = lector.nextInt();
 									cumpleanios = LocalDate.of(year, month, dayOfMonth);
 									// facebook
 									out.println("Ingresa el facebook de tu amigo");
 									cad2 = lector1.next();
 									// twitter
-									out.println("Ingresa el twitter de tu amigo");
+									out.println("Ingresa el twitter de tu amigo(Recuerda incluir el @)");
 									cad3 = lector1.next();
-									direct.agregar(
-											new Amigo(nombre, telefono, celular, correo, cad1, cumpleanios , cad2, cad3));
+									pat = Pattern.compile("^@.*");
+									mat = pat.matcher(cad3);
+									if (!mat.find()) {
+										throw new InputMismatchException();
+									}
+									direct.agregar(new Amigo(nombre, telefono, celular, correo, cad1, cumpleanios, cad2,
+											cad3));
 									out.println("Amigo agregado con exito");
 									break;
-								} catch(InputMismatchException e){
-									err.println("Has escrito un valor incopatible");
+								} catch (InputMismatchException iException) {
+									err.println("Has escrito un valor incompatible");
 									break;
-								} catch(DateTimeException d){
+								} catch (DateTimeException dtDateTimeException) {
 									err.println("Ingresaste una fecha incorrecta");
 									break;
 								}
 							case 'b':
 								out.println("Perfecto! Agreguemos un Familiar");
-								try{
+								try {
 									out.println("A continuacion ingrese los siguientes datos: ");
 									// nombre
 									out.println("Ingrese el nombre de tu familiar");
@@ -110,26 +120,28 @@ public class MiDirectorio {
 									out.println("Ingrese el parentesco de tu familiar");
 									cad1 = lector1.next().toUpperCase();
 									// cumpleanios
-									out.println("Ingresa la fecha del cumpleanios de tu amigo (Utilice solo valores enteros)");
-									out.print("Ingrese el dia:");
+									out.println("Ingresa la fecha del cumpleanios de tu amigo"
+											+ " (Utilice solo valores enteros)");
+									out.print("Ingrese el dia: ");
 									dayOfMonth = lector.nextInt();
-									out.print("Ingrese el mes:");
+									out.print("Ingrese el mes: ");
 									month = lector.nextInt();
-									out.print("Ingrese el anio:");
+									out.print("Ingrese el anio: ");
 									year = lector.nextInt();
 									cumpleanios = LocalDate.of(year, month, dayOfMonth);
 									direct.agregar(new Familiar(nombre, telefono, cad1, cumpleanios));
 									out.println("Familiar agregado con exito");
 									break;
-								} catch(InputMismatchException e) {
-									err.println("Has escrito un valor incopatible");
-								} catch (DateTimeException d) {
+								} catch (InputMismatchException iException) {
+									err.println("Has escrito un valor incompatible");
+									continue;
+								} catch (DateTimeException dtTimeException) {
 									err.println("Ingresaste una fecha incorrecta");
 									break;
 								}
 							case 'c':
 								out.println("Perfecto! Agreguemos un Cliente");
-								try{
+								try {
 									out.println("A continuacion ingrese los siguientes datos:");
 									// nombre
 									out.println("Ingrese el nombre del cliente");
@@ -143,6 +155,12 @@ public class MiDirectorio {
 									// correo
 									out.println("Ingresa el correo del cliente");
 									correo = lector1.next();
+									pat = Pattern.compile(
+											"^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+									mat = pat.matcher(correo);
+									if (!mat.find()) {
+										throw new InputMismatchException();
+									}
 									// compania
 									out.println("Ingresa la compania del cliente");
 									cad1 = lector1.next().toUpperCase();
@@ -152,15 +170,18 @@ public class MiDirectorio {
 									// webpage
 									out.println("Ingresa la pagina web del cliente");
 									cad3 = lector1.next();
-									webpage = new URL(cad3);
-									direct.agregar(new Cliente(nombre, telefono, celular, correo, cad1, cad2, webpage));
+									pat = Pattern.compile("^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))"
+											+ "(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)"
+											+ "([).!';/?:,][[:blank:]])?$");
+									mat = pat.matcher(cad3);
+									if (!mat.find()) {
+										throw new InputMismatchException();
+									}
+									direct.agregar(new Cliente(nombre, telefono, celular, correo, cad1, cad2, cad3));
 									out.println("Cliente agregado con exito");
 									break;
-								}catch(InputMismatchException e){
-									err.println("Has ingresado un valor incopatible");
-									break;
-								}catch(MalformedURLException m){
-									err.println("Ocurrio un error guardando la pagina web");
+								} catch (InputMismatchException e) {
+									err.println("Has ingresado un valor incompatible");
 									break;
 								}
 							case 'd':

@@ -1,22 +1,24 @@
-import java.util.Scanner;
+import java.util.*;
 import static java.lang.System.*;
 
 //Importando bibliotecas necesarias para algunos parametros
-import java.time.LocalDate;
-import java.net.URL;
+import java.time.*;
+import java.util.regex.*;
 
 public class Directorio {
   private Contacto contactos[];
   private int na, dayOfMonth, year, month;
   private Scanner lector;
   private Scanner lector1;
+  Pattern pat;
+  Matcher mat;
 
   public Directorio() {
     this(20);
   }
 
   public Directorio(int n) {
-    contactos = new Contacto[(n < 0) ? 20 : n];// Me mamo ese seguro aqui
+    contactos = new Contacto[(n < 0) ? 20 : n];
     na = 0;
     lector = new Scanner(in);
     lector1 = new Scanner(in).useDelimiter("\n");
@@ -138,7 +140,7 @@ public class Directorio {
     String clientes = "";
     int i;
     if (!estaVacio()) {
-      for (i = 0; i < na; i++){
+      for (i = 0; i < na; i++) {
         if (contactos[i] instanceof Amigo && !((Amigo) contactos[i]).getCorreo().equals(""))
           amigos += ((Amigo) contactos[i]).toString() + "\n**************\n";
         if (contactos[i] instanceof Cliente && !((Cliente) contactos[i]).getCorreo().equals(""))
@@ -243,7 +245,7 @@ public class Directorio {
       }
       return ts;
     } else
-      return "No hay articulos almacenados";
+      return "\nNo hay contactos almacenados";
   }
 
   // Pues sí hay que usarlo así, cambie el método a privado.
@@ -262,15 +264,14 @@ public class Directorio {
 
   public void actualizar(char cat, String nombre) {
     Contacto contacto = buscar(cat, nombre);
-    if (contacto != null){
+    if (contacto != null) {
       if (contacto instanceof Amigo)
         actualizarAmigo(contacto);
       else if (contacto instanceof Familiar)
         actualizarFamiliar(contacto);
       else if (contacto instanceof Cliente)
         actualizarCliente(contacto);
-    } 
-    else
+    } else
       out.println("\nEl contacto solicitado no existe!\n");
   }
 
@@ -335,6 +336,12 @@ public class Directorio {
         case 4:
           out.println("\nEscribe el correo de tu amigo");
           au = lector1.next();
+          pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+          mat = pat.matcher(au);
+          if (!mat.find()) {
+            err.println("Correo invalido");
+            break;
+          }
           a.setCorreo(au);
           break;
         case 5:
@@ -355,7 +362,7 @@ public class Directorio {
             LocalDate cum = LocalDate.of(year, month, dayOfMonth);
             a.setCumpleanios(cum);
             out.println("Validacion Exitosa");
-          } catch (Exception e) {
+          } catch (DateTimeException dtTimeException) {
             err.println("\nFecha Invalida!!!");
           }
           break;
@@ -367,6 +374,12 @@ public class Directorio {
         case 8:
           out.println("\nEcribe el twitter de tu amigo");
           au = lector1.next();
+          pat = Pattern.compile("^@.*");
+          mat = pat.matcher(au);
+          if (!mat.find()) {
+            err.println("Usuario de twitter invalido");
+            break;
+          }
           a.setTwitter(au);
           break;
         case 9:
@@ -421,7 +434,7 @@ public class Directorio {
             LocalDate cum = LocalDate.of(year, month, dayOfMonth);
             f.setCumpleanios(cum);
             out.println("Validacion Exitosa");
-          } catch (Exception e) {
+          } catch (DateTimeException dTimeException) {
             err.println("\nFecha Invalida!!!");
           }
           break;
@@ -468,8 +481,14 @@ public class Directorio {
           c.setCelular(an);
           break;
         case 4:
-          out.println("\nEscribe el correo del cliente");
+          out.println("\nEscribe el correo de tu cliente");
           au = lector1.next();
+          pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+          mat = pat.matcher(au);
+          if (!mat.find()) {
+            err.println("Correo invalido");
+            break;
+          }
           c.setCorreo(au);
           break;
         case 5:
@@ -485,11 +504,14 @@ public class Directorio {
         case 7:
           out.println("\nEcribe la pagina web del cliente");
           au = lector1.next();
-          try {
-            c.setWebpage(new URL(au));
-          } catch (Exception e) {
-            err.println("Ocurrio un error al guardar la pagina web del cliente");
+          pat = Pattern.compile("^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))"
+              + "(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)" + "([).!';/?:,][[:blank:]])?$");
+          mat = pat.matcher(au);
+          if (!mat.find()) {
+            err.println("Sitio web invalido");
+            break;
           }
+          c.setCorreo(au);
           break;
         case 8:
           out.println("\nSaliendo de edicion de Amigo\n");
