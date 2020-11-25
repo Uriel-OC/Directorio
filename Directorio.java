@@ -1,13 +1,17 @@
 import java.util.*;
 import static java.lang.System.*;
 
+//Importando bibliotecas necesarias para la ListaOrdenada
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 //Importando bibliotecas necesarias para algunos parametros
 import java.time.*;
 import java.util.regex.*;
 
 public class Directorio {
   private ListaOrdenada<Contacto> contactos;
-  private int na, dayOfMonth, year, month;
+  private int dayOfMonth, year, month;
   private Scanner lector;
   private Scanner lector1;
   Pattern pat;
@@ -15,7 +19,6 @@ public class Directorio {
   
   public Directorio() {
     contactos = new ListaOrdenada<>(new ComparaNombre());
-    na = 0;
     lector = new Scanner(in);
     lector1 = new Scanner(in).useDelimiter("\n");
   }
@@ -29,21 +32,20 @@ public class Directorio {
   }
 
   public void eliminarN(String nombre) {
-    int i;
     boolean borro = false;
     if (!estaVacio()) {
-      for (i = 0; i < na; i++) {
-        if (nombre.equals(contactos[i].getNombre())) {
-          if (i == (na - 1))
-            na--;
-          else
-            contactos[i] = contactos[--na];
+      Nodo pos = contactos.inicio;
+      while(pos != null){
+	Contacto cont = (Contacto)pos.elemento;
+        if (cont.getNombre().equals(nombre)) {
+          contactos.eliminar(cont);
           borro = true;
           out.println("Contacto eliminado con exito!");
           break;
         }
+	pos = pos.siguiente;
       }
-      if (i == na && !borro)
+      if (!borro)
         out.println("El Contacto con nombre: " + nombre + " no existe!\n");
     } else
       out.println("No hay articulos almacenados\n");
@@ -152,10 +154,11 @@ public class Directorio {
   public void mostrarComp(String compania) {
     String clientes = "";
     if (!estaVacio()) {
-      Contacto copia[] = ordenarAsc(contactos, new ComparaNombre()); // Ordenar alfabeticamente
-      for (int i = 0; i < na; i++) {
-        if (copia[i] instanceof Cliente && ((Cliente) copia[i]).getCompania().equalsIgnoreCase(compania))
-          clientes += ((Cliente) copia[i]).toString() + "\n***************\n";
+      Nodo pos = contactos.inicio;
+      while(pos != null) {
+	Contacto cont = (Contacto)pos.elemento;
+        if (cont instanceof Cliente && ((Cliente) cont).getCompania().equalsIgnoreCase(compania))
+          clientes += ((Cliente) cont).toString() + "\n***************\n";
       }
     }
     if (clientes.equals(""))
@@ -165,27 +168,29 @@ public class Directorio {
   }
 
   public void mostrarDet(char cat) {
-    Contacto cont[] = ordenarAsc(contactos, new ComparaNombre());
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String det = "";
     if (!estaVacio()) { // Si hay contactos
-      for (int i = 0; i < na; i++)
+      Nodo pos = contactos.inicio;
+      while(pos != null){
+	Contacto cont = (Contacto)pos.elemento;
         switch (cat) {
           case 'A': // Es un Amigo
-            if (cont[i] instanceof Amigo)// Lo encontro
-              det += ((Amigo) cont[i]).toString() + "\n********************\n";
+            if (cont instanceof Amigo)// Lo encontro
+              det += ((Amigo) cont).toString() + "\n********************\n";
             break;
           case 'F': // Es un Familiar
-            if (cont[i] instanceof Familiar)// Lo encontro
-              det += ((Familiar) cont[i]).toString() + "\n********************\n";
+            if (cont instanceof Familiar)// Lo encontro
+              det += ((Familiar) cont).toString() + "\n********************\n";
             break;
           case 'C': // Es un Cliente
-            if (cont[i] instanceof Cliente)// Lo encontro
-              det += ((Cliente) cont[i]).toString() + "\n********************\n";
+            if (cont instanceof Cliente)// Lo encontro
+              det += ((Cliente) cont).toString() + "\n********************\n";
             break;
           default:
             break;
         }// Fin switch
+      }
       for (int i = 0; i < t.length; i++) {
         if (cat == (t[i].charAt(0)) && det.equals(""))
           out.println("No hay '" + t[i] + "' que mostrar\n");
@@ -200,12 +205,15 @@ public class Directorio {
   public void mostrarNum(long t) {
     String con = "";
     if (!estaVacio()) {
-      for (int i = 0; i < na; i++)
-        if (t == contactos[i].getTelefono()) {
-          con = contactos[i].toString();
+      Nodo pos = contactos.inicio;
+      while(pos != null){
+	Contacto cont = (Contacto)pos.elemento;
+        if (t == cont.getTelefono()) {
+          con = cont.toString();
           out.println("\nResultado de la busqueda: \n" + con);
           break;
         }
+      }
       if (con.equals(""))
         out.println("No existe un Contacto con el telefono " + t + "\n");
     } else
@@ -218,14 +226,16 @@ public class Directorio {
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String ts = "";
     if (!estaVacio()) { // Si hay Contactos
-      Contacto copia[] = ordenarAsc(contactos, new ComparaNombre());
-      for (int i = 0; i < na; i++) { // Los recorremos todos
-        if (copia[i] instanceof Amigo)// Es cliente
-          tipo[0] += ((Amigo) copia[i]).toString() + "\n********************\n";
-        else if (copia[i] instanceof Familiar) // Es amigo
-          tipo[1] += ((Familiar) copia[i]).toString() + "\n********************\n";
-        else if (copia[i] instanceof Cliente) // Es familiar
-          tipo[2] += ((Cliente) copia[i]).toString() + "\n********************\n";
+      Nodo pos = contactos.inicio;
+      while(pos != null) { // Los recorremos todos
+	Contacto cont = (Contacto)pos.elemento;
+        if (cont instanceof Amigo)// Es cliente
+          tipo[0] += ((Amigo) cont).toString() + "\n********************\n";
+        else if (cont instanceof Familiar) // Es amigo
+          tipo[1] += ((Familiar) cont).toString() + "\n********************\n";
+        else if (cont instanceof Cliente) // Es familiar
+          tipo[2] += ((Cliente) cont).toString() + "\n********************\n";
+	pos = pos.siguiente;
       }
       for (int j = 0; j < tipo.length; j++) {
         if (tipo[j].equals("")) {// No se encontraron amigos
@@ -236,20 +246,6 @@ public class Directorio {
       return ts;
     } else
       return "\nNo hay contactos almacenados";
-  }
-
-  // Pues sí hay que usarlo así, cambie el método a privado.
-  // Va
-  private static <T> T[] ordenarAsc(T contactos[], java.util.Comparator<T> cmp) {
-    T orden[] = contactos;
-    for (int i = 0; i < orden.length; i++)
-      for (int j = i + 1; j < orden.length; j++)
-        if (cmp.compare(contactos[i], contactos[j]) > 0) { // Los datos estan desordenados
-          T temp = orden[i]; // por tanto los intercambia
-          orden[i] = orden[j];
-          orden[j] = temp;
-        }
-    return orden;
   }
 
   public void actualizar(char cat, String nombre) {
@@ -517,7 +513,8 @@ public class Directorio {
     if (!estaVacio()){
       Nodo pos = contactos.inicio;
       while(pos != null){
-	if (pos.elemento.getNombre().equals(nombre)) {
+	Contacto cont = (Contacto)pos.elemento;
+	if (cont.getNombre().equals(nombre)) {
 	  respuesta = true;
 	  break;
 	}
