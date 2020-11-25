@@ -6,36 +6,26 @@ import java.time.*;
 import java.util.regex.*;
 
 public class Directorio {
-  private Contacto contactos[];
+  private ListaOrdenada<Contacto> contactos;
   private int na, dayOfMonth, year, month;
   private Scanner lector;
   private Scanner lector1;
   Pattern pat;
   Matcher mat;
-
+  
   public Directorio() {
-    this(20);
-  }
-
-  public Directorio(int n) {
-    contactos = new Contacto[(n < 0) ? 20 : n];
+    contactos = new ListaOrdenada<>(new ComparaNombre());
     na = 0;
     lector = new Scanner(in);
     lector1 = new Scanner(in).useDelimiter("\n");
   }
 
   public boolean estaVacio() {
-    return na == 0;
-  }
-
-  public boolean estaLleno() {
-    return na == contactos.length;
+    return contactos.estaVacia();
   }
 
   public void agregar(Contacto c) {
-    if (estaLleno())
-      crecerArreglo(1);
-    contactos[na++] = c;
+    contactos.agregar(c);
   }
 
   public void eliminarN(String nombre) {
@@ -522,23 +512,18 @@ public class Directorio {
     } while (op != 8);
   }
 
-  private void crecerArreglo(int n) {
-    int nuevoTam = contactos.length + n;
-    Contacto cont[] = new Contacto[nuevoTam];
-    for (int i = 0; i < contactos.length; i++) {
-      cont[i] = contactos[i];
-    }
-    contactos = cont;
-  }
-
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
-    if (!estaVacio())
-      for (int i = 0; i < na; i++)
-        if (nombre.equals(contactos[i].getNombre())) {
-          respuesta = true;
-          break;
-        }
+    if (!estaVacio()){
+      Nodo pos = contactos.inicio;
+      while(pos != null){
+	if (pos.elemento.getNombre().equals(nombre)) {
+	  respuesta = true;
+	  break;
+	}
+	pos = pos.siguiente;
+      }
     return respuesta;
+    }
   }
 }
