@@ -1,6 +1,6 @@
 /**
   * Interfaz que define las operaciones para implementar una Lista
-  * @author Gerardo Aviles Rosas
+  * @author 
   * @version Marzo de 2015
   */
 interface Listable<T>{
@@ -17,7 +17,7 @@ interface Listable<T>{
    */
  public Nodo buscar(T x);
  /**
-   * Metodo que se encarga de determinar si el elemento pasado como parámetro se
+   * Metodo que se encarga de determinar si el elemento pasado como parï¿½metro se
    * <br>encuentra o no en la Lista.
    * @param T El elemento a buscar.
    * @return boolean true si encuentra el elemento, false en otro caso
@@ -28,17 +28,17 @@ interface Listable<T>{
    * @return Iterador con todos los elementos de la Lista.
    */
  public java.util.Iterator elementos();
- /** Metodo que determina si la Lista está o no vacía.
-   * @return boolean true si esta vacía, false en otro caso.
+ /** Metodo que determina si la Lista esta o no vacia.
+   * @return boolean true si esta vacia, false en otro caso.
    */
  public boolean estaVacia();
  /**
    * Inserta un elemento al inicio de la lista.
-   * @param e El elemento que se almacenará en el nuevo Nodo.
+   * @param e El elemento que se almacenarï¿½ en el nuevo Nodo.
    */
  public void agregar(T e);
  /**
-   * Metodo que vacía la Lista en tiempo constante
+   * Metodo que vacia la Lista en tiempo constante
    */
  public void limpiar();
  /**
