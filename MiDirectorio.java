@@ -10,7 +10,7 @@ public class MiDirectorio {
 		Scanner lector = new Scanner(in);
 		Scanner lector1 = new Scanner(in).useDelimiter("\n");
 		Directorio direct;
-		int entero, dayOfMonth, month, year;
+		int dayOfMonth, month, year;
 		String cad1, cad2, cad3, nombre, correo;
 		char opcion, op;
 		long telefono, celular;
@@ -18,16 +18,9 @@ public class MiDirectorio {
 		Matcher mat;
 		LocalDate cumpleanios;
 		out.println("\n***** INICIO *****");
-		out.print("\nIngresa el numero inicial de comtactos a almacenar: ");
-		try {
-			entero = lector.nextInt();
-			direct = new Directorio(entero);
-			out.println("Directorio virtual creado");
-		} catch (Exception e) {
-			direct = new Directorio();
-			err.println("Has ingresado un valor incompatible");
-			out.println("Se ha creado un directorio por omision");
-		}
+		direct = new Directorio();
+		out.println("Directorio virtual creado");
+
 		do {
 			out.println("\n******* MENU PRINCIPAL *******");
 			out.println("a. Agregar contacto");
@@ -198,7 +191,8 @@ public class MiDirectorio {
 						out.println("\n******* MENU ELIMINAR *******");
 						out.println("a. Eliminar un contacto a partir del nombre");
 						out.println("b. Eliminar todos los contactos con el mismo nombre");
-						out.println("c. Regresar al menu principal");
+						out.println("c. Eliminar todos los contactos del directorio");
+						out.println("d. Regresar al menu principal");
 						out.print("Opcion seeccionada: ");
 						op = lector1.next().toLowerCase().charAt(0);
 						switch (op) {
@@ -210,16 +204,20 @@ public class MiDirectorio {
 							case 'b':
 								out.println("Cual es el nombre de los contactos que quieres eliminar?");
 								nombre = lector1.next().toUpperCase();
-								direct.eliminarTodos(nombre);
+								direct.eliminarTodosN(nombre);
 								break;
 							case 'c':
+								direct.eliminarTodos();
+								out.println("Todos los contactos han ");
+								break;
+							case 'd':
 								out.println("Regresando al menu principal...");
 								break;
 							default:
 								out.println("Opcion invalida!");
 								break;
 						}
-					} while (op != 'c');
+					} while (op != 'd');
 					break;
 				case 'c':// buscar
 					do {

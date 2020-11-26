@@ -3,7 +3,6 @@ import static java.lang.System.*;
 
 //Importando bibliotecas necesarias para la ListaOrdenada
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 //Importando bibliotecas necesarias para algunos parametros
 import java.time.*;
@@ -55,7 +54,7 @@ public class Directorio {
   public void eliminarTodos() {
     if (!estaVacio()) {
       contactos.limpiar();
-      out.println("Se elimino al menos un Contacto");
+      out.println("Se eliminaron todos los contactos");
     } else
       out.println("No hay Contactos almacenados\n");
   }
@@ -70,20 +69,19 @@ public class Directorio {
         if (con.getNombre().equals(nombre)) {
           contactos.eliminar(con);
           borro = true;
-          out.println("Contacto eliminado con exito!");
-          it = contactos.elementos(); // No es toy muy seguro si hay que reinciar el iterador
-          break;
+          it = contactos.elementos(); // No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
         }
       } while (it.hasNext());
       if (borro)
-        out.println("Se elimino al menos un Contacto");
+        out.println("Contactos eliminado con exito!");
       else
         out.println("No existe ningun Contacto con el nombre " + nombre + "\n");
     } else
       out.println("No hay Contactos almacenados\n");
   }
 
-  public void mostrarN(String nombre) {
+  public void mostrarN(String nombre) {// Aqui se da solo la primer coincidencia,
+    // Eso es lo que hay que decidir
     String con = "";
     if (!estaVacio()) {
       Nodo pos = contactos.inicio;
@@ -91,7 +89,7 @@ public class Directorio {
         Contacto cont = (Contacto) pos.elemento;
         if (cont.getNombre().equals(nombre)) {
           con = cont.toString();
-          out.println("\nResultado de la busqueda: \n" + con);
+          out.println("\n******** Resultado de la busqueda **********\n" + con);
           break;
         }
         pos = pos.siguiente;
@@ -102,31 +100,35 @@ public class Directorio {
       out.println("No hay Contactos almacenados\n");
   }
 
+  // Aqui se dan todas las coincidencias
   public void mostrarNC(String nombre, char cat) {// Aqui creo que habría un error porque no mostraria solo la primer
                                                   // coincidencia, si hay dos amigos/clientes/Fam con el mismo nombre
-                                                  // creo que haria
+                                                  // creo que haria pero luego checo si solo debe dar la primer
+                                                  // coincidencia
                                                   // mueck
     if (!estaVacio() && contieneN(nombre)) {
+      String con = "";
       Iterator it = contactos.elementos();
       while (it.hasNext()) {
         Contacto cont = (Contacto) it.next();
         switch (cat) {
           case 'a':
             if (cont instanceof Amigo && cont.getNombre().equals(nombre))
-              out.println(((Amigo) cont).toString());
+              con += ((Amigo) cont).toString() + "**********\n";
             break;
           case 'f':
             if (cont instanceof Familiar && cont.getNombre().equals(nombre))
-              out.println(((Familiar) cont).toString());
+              con += ((Familiar) cont).toString() + "**********\n";
             break;
           case 'c':
             if (cont instanceof Cliente && cont.getNombre().equals(nombre))
-              out.println(((Cliente) cont).toString());
+              con += ((Cliente) cont).toString() + "**********\n";
             break;
           default:
             break;
         }
       }
+      out.println("\n****** Resulatado de Busqueda********\n" + con);
     } else
       out.println("No se encontraron resultados de la busqueda\n");
     // No se si sea necesario
@@ -146,13 +148,12 @@ public class Directorio {
     if (ft.equals(""))
       out.println("No hay amigos con Facebook o Twitter que mostrar :(\n");
     else
-      out.println("*******AMIGOS CON FACEBOOK o TWITTER*******\n" + ft);
+      out.println("\n*******AMIGOS CON FACEBOOK o TWITTER*******\n" + ft);
   }
 
   public void mostrarCo() {
     String amigos = "";
     String clientes = "";
-    int i;
     if (!estaVacio()) {
       Iterator it = contactos.elementos();
       while (it.hasNext()) {
@@ -189,7 +190,7 @@ public class Directorio {
     if (clientes.equals(""))
       out.println("\nNo hay clientes que mostrar :(\n");
     else
-      out.println("\n Clientes de la compania " + compania.toUpperCase() + ":\n" + clientes);
+      out.println("\nClientes de la compania: " + compania.toUpperCase() + ":\n" + clientes);
   }
 
   public void mostrarDet(char cat) {
@@ -267,7 +268,7 @@ public class Directorio {
         if (tipo[j].equals("")) {// No se encontraron amigos
           tipo[j] = "No hay '" + t[j].toLowerCase() + "' que mostrar!\n********************\n";
         }
-        ts += "\n" + t[j] + "\n" + tipo[j];
+        ts += "\n********" + t[j] + "********\n" + tipo[j];
       }
       return ts;
     } else
@@ -288,28 +289,41 @@ public class Directorio {
   }
 
   private Contacto buscar(char c, String n) {
-    if (!estaVacio()) {
-      switch (c) {
-        case 'a':
-          if (contactos[i] instanceof Amigo && contactos[i].getNombre().equals(n))
-            return;
-          break;
-        case 'f':
-          for (int i = 0; i < na; i++)
-            if (contactos[i] instanceof Familiar && contactos[i].getNombre().equals(n))
-              return contactos[i];
-          break;
-        case 'c':
-          for (int i = 0; i < na; i++)
-            if (contactos[i] instanceof Cliente && contactos[i].getNombre().equals(n))
-              return contactos[i];
-          break;
+    if (!estaVacio() && contieneN(n)) {
+      Nodo pos = contactos.inicio;
+      Contacto cont = null;
+      while (pos != null) {
+        Contacto con = (Contacto) pos.elemento;
+        switch (c) {
+          case 'a':
+            if (con instanceof Amigo && con.getNombre().equals(n)) {
+              cont = (Contacto) contactos.buscar(con).elemento;
+              // Creo que esta linea se puede hacer mejorar, pero ya no tengo cabeza para ella
+              // ahorita. Aunque sin pedos la linea funciona
+            }
+            break;
+          case 'f':
+            if (con instanceof Familiar && con.getNombre().equals(n)) {
+              cont = (Contacto) contactos.buscar(con).elemento;
+            }
+            break;
+          case 'c':
+            if (con instanceof Cliente && con.getNombre().equals(n)) {
+              cont = (Contacto) contactos.buscar(con).elemento;
+            }
+            break;
+          default:
+            return null;
+        }
+        pos = pos.siguiente;
       }
-      return null;
+      return cont;
     } else
       return null;
   }
 
+  // Supongo que para estos quieren que utlizemos el sustituir y esos pedos de la
+  // lista pero pues vemos JAJA
   private void actualizarAmigo(Contacto c) {
     int op;
     long an;
