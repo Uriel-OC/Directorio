@@ -64,16 +64,15 @@ public class Directorio {
   public void eliminarN(String nombre) {
     boolean borro = false;
     if (!estaVacio()) {
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         if (cont.getNombre().equals(nombre)) {
           contactos.eliminar(cont);
           borro = true;
           out.println("Contacto eliminado con exito!");
           break;
         }
-        pos = pos.siguiente;
       }
       if (!borro)
         out.println("El Contacto con nombre: " + nombre + " no existe!\n");
@@ -101,15 +100,15 @@ public class Directorio {
     boolean borro = false;
     if (!estaVacio()) {
       Iterator it = contactos.elementos();
-      do {
+      while (it.hasNext()){
         Contacto con = (Contacto) it.next();
         if (con.getNombre().equals(nombre)) {
           contactos.eliminar(con);
           borro = true;
-          it = contactos.elementos(); // No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
+          //it = contactos.elementos(); No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
           // Podemos probarlo sin reiniciar el iterador
         }
-      } while (it.hasNext());
+      }
       if (borro)
         out.println("Contactos eliminado con exito!");
       else
@@ -127,15 +126,14 @@ public class Directorio {
     // Eso es lo que hay que decidir
     String con = "";
     if (!estaVacio()) {
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         if (cont.getNombre().equals(nombre)) {
           con = cont.toString();
           out.println("\n******** Resultado de la busqueda **********\n" + con);
           break;
         }
-        pos = pos.siguiente;
       }
       if (con.equals(""))
         out.println("No existe un Contacto con el nombre " + nombre + "\n");
@@ -149,12 +147,7 @@ public class Directorio {
    * @param nombre El nombre del ontacto
    * @param cat    La categoria del contacto
    */
-  public void mostrarNC(String nombre, char cat) {// Aqui creo que habría un error porque no mostraria solo la primer
-                                                  // coincidencia, si hay dos amigos/clientes/Fam con el mismo nombre
-                                                  // creo que haria pero luego checo si solo debe dar la primer
-                                                  // coincidencia
-                                                  // mueck
-    // Despues lo checho
+  public void mostrarNC(String nombre, char cat) {    
     if (!estaVacio() && contieneN(nombre)) {
       String con = "";
       Iterator it = contactos.elementos();
@@ -162,25 +155,32 @@ public class Directorio {
         Contacto cont = (Contacto) it.next();
         switch (cat) {
           case 'a':
-            if (cont instanceof Amigo && cont.getNombre().equals(nombre))
+            if (cont instanceof Amigo && cont.getNombre().equals(nombre)){
               con += ((Amigo) cont).toString() + "**********\n";
+	      break;
+	    }
             break;
           case 'f':
-            if (cont instanceof Familiar && cont.getNombre().equals(nombre))
+            if (cont instanceof Familiar && cont.getNombre().equals(nombre)){
               con += ((Familiar) cont).toString() + "**********\n";
+	      break;
+	    }
             break;
           case 'c':
-            if (cont instanceof Cliente && cont.getNombre().equals(nombre))
+            if (cont instanceof Cliente && cont.getNombre().equals(nombre)){
               con += ((Cliente) cont).toString() + "**********\n";
+	      break;
+	    }
             break;
           default:
             break;
         }
       }
       out.println("\n****** Resulatado de Busqueda********\n" + con);
-    } else
+    } else if(!estaVacio() && !contieneN(nombre))
       out.println("No se encontraron resultados de la busqueda\n");
-    // No se si sea necesario
+    else
+      out.println("No hay Contactos almacenados\n");
   }
 
   /**
@@ -239,12 +239,11 @@ public class Directorio {
   public void mostrarComp(String compania) {
     String clientes = "";
     if (!estaVacio()) {
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         if (cont instanceof Cliente && ((Cliente) cont).getCompania().equalsIgnoreCase(compania))
           clientes += ((Cliente) cont).toString() + "\n***************\n";
-        pos = pos.siguiente;
       }
     }
     if (clientes.equals(""))
@@ -262,9 +261,9 @@ public class Directorio {
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String det = "";
     if (!estaVacio()) { // Si hay contactos
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         switch (cat) {
           case 'A': // Es un Amigo
             if (cont instanceof Amigo)// Lo encontro
@@ -281,13 +280,13 @@ public class Directorio {
           default:
             break;
         }// Fin switch
-        pos = pos.siguiente;
       }
-      for (int i = 0; i < t.length; i++) {
-        if (cat == (t[i].charAt(0)) && det.equals(""))
-          out.println("No hay '" + t[i] + "' que mostrar\n");
-        if (cat == (t[i].charAt(0)))
-          out.println("******" + t[i] + "********\n" + det);
+      // Cambio a un for-each
+      for (String categ: t) {
+        if (cat == (categ.charAt(0)) && det.equals(""))
+          out.println("No hay '" + categ + "' que mostrar\n");
+        if (cat == (categ.charAt(0)))
+          out.println("******" + categ + "********\n" + det);
       }
     } // Fin if(!estaVacio)
     else
@@ -302,9 +301,9 @@ public class Directorio {
   public void mostrarNum(long t) {
     String con = "";
     if (!estaVacio()) {
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         if (t == cont.getTelefono()) {
           con = cont.toString();
           out.println("\nResultado de la busqueda: \n" + con);
@@ -328,16 +327,15 @@ public class Directorio {
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String ts = "";
     if (!estaVacio()) { // Si hay Contactos
-      Nodo pos = contactos.inicio;
-      while (pos != null) { // Los recorremos todos
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) { // Los recorremos todos
+        Contacto cont = (Contacto) it.next();
         if (cont instanceof Amigo)// Es cliente
           tipo[0] += ((Amigo) cont).toString() + "\n********************\n";
         else if (cont instanceof Familiar) // Es amigo
           tipo[1] += ((Familiar) cont).toString() + "\n********************\n";
         else if (cont instanceof Cliente) // Es familiar
           tipo[2] += ((Cliente) cont).toString() + "\n********************\n";
-        pos = pos.siguiente;
       }
       for (int j = 0; j < tipo.length; j++) {
         if (tipo[j].equals("")) {// No se encontraron amigos
@@ -378,10 +376,10 @@ public class Directorio {
    */
   private Contacto buscar(char c, String n) {
     if (!estaVacio() && contieneN(n)) {
-      Nodo pos = contactos.inicio;
+      Iterator it = contactos.elementos();
       Contacto cont = null;
-      while (pos != null) {
-        Contacto con = (Contacto) pos.elemento;
+      while (it.hasNext()) {
+        Contacto con = (Contacto) it.next();
         switch (c) {
           case 'a':
             if (con instanceof Amigo && con.getNombre().equals(n)) {
@@ -403,7 +401,6 @@ public class Directorio {
           default:
             return null;
         }
-        pos = pos.siguiente;
       }
       return cont;
     } else
@@ -664,14 +661,13 @@ public class Directorio {
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
     if (!estaVacio()) {
-      Nodo pos = contactos.inicio;
-      while (pos != null) {
-        Contacto cont = (Contacto) pos.elemento;
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
         if (cont.getNombre().equals(nombre)) {
           respuesta = true;
           break;
         }
-        pos = pos.siguiente;
       }
     }
     return respuesta;
