@@ -1,6 +1,6 @@
 /**
   * Interfaz que define las operaciones para implementar una Lista
-  * @author 
+  * @author Gerardo Aviles Rosas
   * @version Marzo de 2015
   */
 interface Listable<T>{

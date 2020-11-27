@@ -8,6 +8,18 @@ import java.util.Iterator;
 import java.time.*;
 import java.util.regex.*;
 
+/**
+ * Clase que se encarga de modelar todas las opciones de un Directorio de
+ * Contactos
+ *
+ * @author Cruz Barrios Luis Alberto
+ * @author Flores Molina Alfredo
+ * @author Fernandez Neria Montserrat
+ * @author Maya Sanchez Andrea Fernanda
+ * @author Ortiz Covarrubias Andres Uriel
+ * @author Lopez Espindola Luis Enrique
+ * @version Noviembre 2020
+ */
 public class Directorio {
   private ListaOrdenada<Contacto> contactos;
   private int dayOfMonth, year, month;
@@ -16,20 +28,39 @@ public class Directorio {
   Pattern pat;
   Matcher mat;
 
+  /**
+   * Constructor por omision
+   * <br> Construye una ListaOrdenada para almacenar los Contactos
+   */
   public Directorio() {
     contactos = new ListaOrdenada<>(new ComparaNombre());
     lector = new Scanner(in);
     lector1 = new Scanner(in).useDelimiter("\n");
   }
 
+  /**
+   * Metodo para saber si la ListaOrdenada de Contactos esta vacia
+   *
+   * @return boolean true si esta vacio, false en caso contrario
+   */
   public boolean estaVacio() {
     return contactos.estaVacia();
   }
 
+  /**
+   * Metodo para agregar un Contacto
+   *
+   * @param contacto El contacto que se va a agregar
+   */
   public void agregar(Contacto c) {
     contactos.agregar(c);
   }
 
+  /**
+   * Metodo para eliminar el primer Contacto con el nombre dado
+   * 
+   * @param nomnre El nombre del contacto a eliminar
+   */
   public void eliminarN(String nombre) {
     boolean borro = false;
     if (!estaVacio()) {
@@ -50,7 +81,9 @@ public class Directorio {
       out.println("No hay articulos almacenados\n");
   }
 
-  // Cree un eliminar todos para aprovechar el limpiar()
+  /**
+   * Metodo que elimina todos los contactos almacenados
+   */
   public void eliminarTodos() {
     if (!estaVacio()) {
       contactos.limpiar();
@@ -59,7 +92,11 @@ public class Directorio {
       out.println("No hay Contactos almacenados\n");
   }
 
-  // Y respete el eliminar todos los contactos d e un mismo nombre
+  /**
+   * Metodo que elimina todos los contactos con el mismo nombre
+   * 
+   * @param nombre El nombre de los contactos a eliminar
+   */
   public void eliminarTodosN(String nombre) {
     boolean borro = false;
     if (!estaVacio()) {
@@ -70,6 +107,7 @@ public class Directorio {
           contactos.eliminar(con);
           borro = true;
           it = contactos.elementos(); // No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
+          //Podemos probarlo sin reiniciar el iterador
         }
       } while (it.hasNext());
       if (borro)
@@ -80,6 +118,11 @@ public class Directorio {
       out.println("No hay Contactos almacenados\n");
   }
 
+  /**
+   * Metodo que muestra un contacto con el nombre dado
+   * 
+   * @param nombre El nombre del contacto
+   */
   public void mostrarN(String nombre) {// Aqui se da solo la primer coincidencia,
     // Eso es lo que hay que decidir
     String con = "";
@@ -100,12 +143,18 @@ public class Directorio {
       out.println("No hay Contactos almacenados\n");
   }
 
-  // Aqui se dan todas las coincidencias
+  /**
+   * Metodo que muestra a un contacto dado su nombre y categoria
+   * 
+   * @param nombre El nombre del ontacto
+   * @param cat La categoria del contacto
+   */
   public void mostrarNC(String nombre, char cat) {// Aqui creo que habría un error porque no mostraria solo la primer
                                                   // coincidencia, si hay dos amigos/clientes/Fam con el mismo nombre
                                                   // creo que haria pero luego checo si solo debe dar la primer
                                                   // coincidencia
                                                   // mueck
+    //Despues lo checho
     if (!estaVacio() && contieneN(nombre)) {
       String con = "";
       Iterator it = contactos.elementos();
@@ -134,6 +183,9 @@ public class Directorio {
     // No se si sea necesario
   }
 
+  /**
+   * Metodo que muestra a todos los contactos con Facebook y/o Twitter
+   */
   public void mostrarFT() {
     String ft = "";
     if (!estaVacio()) {
@@ -151,6 +203,9 @@ public class Directorio {
       out.println("\n*******AMIGOS CON FACEBOOK o TWITTER*******\n" + ft);
   }
 
+  /**
+   * Metodo que muestra todos los contactos con correo
+   */
   public void mostrarCo() {
     String amigos = "";
     String clientes = "";
@@ -176,6 +231,11 @@ public class Directorio {
     }
   }
 
+  /**
+   * Metodo que muestra todos los clientes de una compania
+   * 
+   * @param compania La compania de los clientes
+   */
   public void mostrarComp(String compania) {
     String clientes = "";
     if (!estaVacio()) {
@@ -193,6 +253,11 @@ public class Directorio {
       out.println("\nClientes de la compania: " + compania.toUpperCase() + ":\n" + clientes);
   }
 
+  /**
+   * Metodo que muestra a todos los clientes de una categoria
+   * 
+   * @param cat La categoria de los clientes
+   */
   public void mostrarDet(char cat) {
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String det = "";
@@ -229,6 +294,11 @@ public class Directorio {
       out.println("No hay contactos que mostrar");
   }
 
+  /**
+   * Metodo que muestra un contacto dado su telefono
+   * 
+   * @param t El telefono del contacto
+   */
   public void mostrarNum(long t) {
     String con = "";
     if (!estaVacio()) {
@@ -247,6 +317,11 @@ public class Directorio {
       out.println("No hay Contactos almacenados\n");
   }
 
+  /**
+   * Metodo que muestra toda la informacion almacenada
+   * 
+   * @return String Todos los Contactos almacenados
+   */
   @Override
   public String toString() {
     String[] tipo = { "", "", "" };
@@ -275,6 +350,13 @@ public class Directorio {
       return "\nNo hay contactos almacenados";
   }
 
+  /**
+   * Metodo que actualiza la informacion de un contacto dada su categoria
+   * y nombre
+   * 
+   * @param cat La categoria del contacto
+   * @param nombre El nombre del contacto
+   */
   public void actualizar(char cat, String nombre) {
     Contacto contacto = buscar(cat, nombre);
     if (contacto != null) {
@@ -288,6 +370,12 @@ public class Directorio {
       out.println("\nEl contacto solicitado no existe!\n");
   }
 
+  /*
+   * Metodo privado que busca a un contacto dada su categoria y nombre
+   * 
+   * @param cat La categoria del contacto
+   * @param n El nombre del contacto
+   */
   private Contacto buscar(char c, String n) {
     if (!estaVacio() && contieneN(n)) {
       Nodo pos = contactos.inicio;
@@ -324,6 +412,12 @@ public class Directorio {
 
   // Supongo que para estos quieren que utlizemos el sustituir y esos pedos de la
   // lista pero pues vemos JAJA
+  // El metodo sustituir es para cambiar objetos de lugar pero como estamos usando 
+  // ListasOrdenadas no queremos desordenar la lista asi que no lo utilizamos
+  /*
+   * Metodo privado que actualiza la informacion de un amigo
+   * @param c El amigo a actualizar
+   */
   private void actualizarAmigo(Contacto c) {
     int op;
     long an;
@@ -416,6 +510,10 @@ public class Directorio {
     } while (op != 9);
   }
 
+  /*
+   * Metodo privado que actualiza la informacion de un fammiliar
+   * @param c El familiar a actualizar
+   */
   private void actualizarFamiliar(Contacto c) {
     int op;
     long an;
@@ -472,6 +570,10 @@ public class Directorio {
     } while (op != 5);
   }
 
+  /*
+   * Metodo privado que actualiza la informacion de un cliente
+   * @param c El cliente a actualizar
+   */
   private void actualizarCliente(Contacto d) {
     int op;
     long an;
@@ -547,6 +649,13 @@ public class Directorio {
     } while (op != 8);
   }
 
+  /*
+   * Metodo privado que busca a un contacto dado su nombre y lo devuelve
+   * 
+   * @param nombre El nombre del contacto
+   * @return boolean true si la lista contiene al contacto con el nombre, 
+   *                 false en el caso contrario
+   */
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
     if (!estaVacio()) {

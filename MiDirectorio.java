@@ -20,7 +20,6 @@ public class MiDirectorio {
 		out.println("\n***** INICIO *****");
 		direct = new Directorio();
 		out.println("Directorio virtual creado");
-
 		do {
 			out.println("\n******* MENU PRINCIPAL *******");
 			out.println("a. Agregar contacto");
