@@ -17,10 +17,10 @@ public class ContactoCC extends Contacto {
     /**
      * Constructor que recibe parametros
      *
-     * @param nombre El nombre del Contacto
+     * @param nombre   El nombre del Contacto
      * @param telefono El telefono de casa del Contacto
-     * @param celular El celular del Contacto
-     * @param correo El correo del Contacto
+     * @param celular  El celular del Contacto
+     * @param correo   El correo del Contacto
      */
     public ContactoCC(String nombre, long telefono, long celular, String correo) {
         super(nombre, telefono);

@@ -19,9 +19,9 @@ public class Familiar extends Contacto {
     /**
      * Constructor que recibe parametros
      *
-     * @param nombre El nombre del Familiar
-     * @param telefono El telefono de casa del Familiar
-     * @param parentesco El parentesco del Familiar
+     * @param nombre      El nombre del Familiar
+     * @param telefono    El telefono de casa del Familiar
+     * @param parentesco  El parentesco del Familiar
      * @param cumpleanios El cumpleanios del Familiar
      */
     public Familiar(String nombre, long telefono, String parentesco, LocalDate cumpleanios) {
@@ -67,8 +67,8 @@ public class Familiar extends Contacto {
     }
 
     /**
-     * Metodo para imprimir un contacto de la categoria Familiar como una cadena
-     * de caracteres
+     * Metodo para imprimir un contacto de la categoria Familiar como una cadena de
+     * caracteres
      *
      * @return String El contacto Familar en formato de cadena de caracter
      */

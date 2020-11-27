@@ -14,17 +14,17 @@ public class Cliente extends ContactoCC {
     private String compania;
     private String extension;
     private String webpage;
-    
+
     /**
      * Constructor que recibe parametros
      *
-     * @param nombre El nombre del Cliente
-     * @param telefono El telefono de casa del Cliente
-     * @param celular El celular del Cliente
-     * @param correo El correo del Cliente
-     * @param compania La compania del Cliente
+     * @param nombre    El nombre del Cliente
+     * @param telefono  El telefono de casa del Cliente
+     * @param celular   El celular del Cliente
+     * @param correo    El correo del Cliente
+     * @param compania  La compania del Cliente
      * @param extension La extension del Cliente
-     * @param webpage La pagina web del Cliente
+     * @param webpage   La pagina web del Cliente
      */
     public Cliente(String nombre, long telefono, long celular, String correo, String compania, String extension,
             String webpage) {

@@ -16,7 +16,7 @@ class Contacto {
     /**
      * Constructor que recibe parametros
      *
-     * @param nombre El nombre del Contacto
+     * @param nombre   El nombre del Contacto
      * @param telefono El telefono casa del Contacto
      */
     public Contacto(String nombre, long telefono) {

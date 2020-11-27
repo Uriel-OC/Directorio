@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 /**
- *  Clase que permite modelar un contacto de la categoria Amigo
+ * Clase que permite modelar un contacto de la categoria Amigo
  *
  * @author Cruz Barrios Luis Alberto
  * @author Flores Molina Alfredo
@@ -21,14 +21,14 @@ public class Amigo extends ContactoCC {
     /**
      * Constructor que recibe parametros
      *
-     * @param nombre El nombre del contacto Amigo
-     * @param telefono El telefono de casa del contacto Amigo
-     * @param celular El celular del contacto Amigo
-     * @param correo El correo del contacto Amigo
-     * @param apodo El apodo del contacto Amigo
+     * @param nombre      El nombre del contacto Amigo
+     * @param telefono    El telefono de casa del contacto Amigo
+     * @param celular     El celular del contacto Amigo
+     * @param correo      El correo del contacto Amigo
+     * @param apodo       El apodo del contacto Amigo
      * @param cumpleanios El cumpleanios del contacto Amigo
-     * @param facebook El facebook del contacto Amigo
-     * @param twitter El twitter del contacto Amigo
+     * @param facebook    El facebook del contacto Amigo
+     * @param twitter     El twitter del contacto Amigo
      */
     public Amigo(String nombre, long telefono, long celular, String correo, String apodo, LocalDate cumpleanios,
             String facebook, String twitter) {
@@ -118,7 +118,7 @@ public class Amigo extends ContactoCC {
      */
     @Override
     public String toString() {
-        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: "
-                + facebook + "\nTwitter: " + twitter;
+        return super.toString() + "\nApodo: " + apodo + "\nCumpleanios: " + cumpleanios + "\nFacebook: " + facebook
+                + "\nTwitter: " + twitter;
     }
 }

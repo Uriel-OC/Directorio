@@ -29,8 +29,8 @@ public class Directorio {
   Matcher mat;
 
   /**
-   * Constructor por omision
-   * <br> Construye una ListaOrdenada para almacenar los Contactos
+   * Constructor por omision <br>
+   * Construye una ListaOrdenada para almacenar los Contactos
    */
   public Directorio() {
     contactos = new ListaOrdenada<>(new ComparaNombre());
@@ -107,7 +107,7 @@ public class Directorio {
           contactos.eliminar(con);
           borro = true;
           it = contactos.elementos(); // No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
-          //Podemos probarlo sin reiniciar el iterador
+          // Podemos probarlo sin reiniciar el iterador
         }
       } while (it.hasNext());
       if (borro)
@@ -147,14 +147,14 @@ public class Directorio {
    * Metodo que muestra a un contacto dado su nombre y categoria
    * 
    * @param nombre El nombre del ontacto
-   * @param cat La categoria del contacto
+   * @param cat    La categoria del contacto
    */
   public void mostrarNC(String nombre, char cat) {// Aqui creo que habría un error porque no mostraria solo la primer
                                                   // coincidencia, si hay dos amigos/clientes/Fam con el mismo nombre
                                                   // creo que haria pero luego checo si solo debe dar la primer
                                                   // coincidencia
                                                   // mueck
-    //Despues lo checho
+    // Despues lo checho
     if (!estaVacio() && contieneN(nombre)) {
       String con = "";
       Iterator it = contactos.elementos();
@@ -351,10 +351,9 @@ public class Directorio {
   }
 
   /**
-   * Metodo que actualiza la informacion de un contacto dada su categoria
-   * y nombre
+   * Metodo que actualiza la informacion de un contacto dada su categoria y nombre
    * 
-   * @param cat La categoria del contacto
+   * @param cat    La categoria del contacto
    * @param nombre El nombre del contacto
    */
   public void actualizar(char cat, String nombre) {
@@ -370,11 +369,12 @@ public class Directorio {
       out.println("\nEl contacto solicitado no existe!\n");
   }
 
-  /*
+  /**
    * Metodo privado que busca a un contacto dada su categoria y nombre
    * 
    * @param cat La categoria del contacto
-   * @param n El nombre del contacto
+   * 
+   * @param n   El nombre del contacto
    */
   private Contacto buscar(char c, String n) {
     if (!estaVacio() && contieneN(n)) {
@@ -412,10 +412,12 @@ public class Directorio {
 
   // Supongo que para estos quieren que utlizemos el sustituir y esos pedos de la
   // lista pero pues vemos JAJA
-  // El metodo sustituir es para cambiar objetos de lugar pero como estamos usando 
+  // El metodo sustituir es para cambiar objetos de lugar pero como estamos usando
   // ListasOrdenadas no queremos desordenar la lista asi que no lo utilizamos
-  /*
+
+  /**
    * Metodo privado que actualiza la informacion de un amigo
+   * 
    * @param c El amigo a actualizar
    */
   private void actualizarAmigo(Contacto c) {
@@ -512,6 +514,7 @@ public class Directorio {
 
   /*
    * Metodo privado que actualiza la informacion de un fammiliar
+   * 
    * @param c El familiar a actualizar
    */
   private void actualizarFamiliar(Contacto c) {
@@ -572,6 +575,7 @@ public class Directorio {
 
   /*
    * Metodo privado que actualiza la informacion de un cliente
+   * 
    * @param c El cliente a actualizar
    */
   private void actualizarCliente(Contacto d) {
@@ -649,12 +653,13 @@ public class Directorio {
     } while (op != 8);
   }
 
-  /*
+  /**
    * Metodo privado que busca a un contacto dado su nombre y lo devuelve
    * 
    * @param nombre El nombre del contacto
-   * @return boolean true si la lista contiene al contacto con el nombre, 
-   *                 false en el caso contrario
+   * 
+   * @return boolean true si la lista contiene al contacto con el nombre, false en
+   * el caso contrario
    */
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
