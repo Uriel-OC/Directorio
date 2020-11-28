@@ -21,7 +21,9 @@ import java.util.regex.*;
  * @version Noviembre 2020
  */
 public class Directorio {
-  private ListaOrdenada<Contacto> contactos;
+  // private ListaOrdenada<Contacto> contactos;
+  private Lista<Contacto> contactos;
+  private ListaOrdenada<Contacto> orden;
   private int dayOfMonth, year, month;
   private Scanner lector;
   private Scanner lector1;
@@ -33,7 +35,9 @@ public class Directorio {
    * Construye una ListaOrdenada para almacenar los Contactos
    */
   public Directorio() {
-    contactos = new ListaOrdenada<>(new ComparaNombre());
+    // contactos = new ListOrdenada<>(new ComparaNombre);
+    contactos = new Lista<>();
+    orden = new ListaOrdenada<>(new ComparaNombre());
     lector = new Scanner(in);
     lector1 = new Scanner(in).useDelimiter("\n");
   }
@@ -100,13 +104,11 @@ public class Directorio {
     boolean borro = false;
     if (!estaVacio()) {
       Iterator it = contactos.elementos();
-      while (it.hasNext()){
+      while (it.hasNext()) {
         Contacto con = (Contacto) it.next();
         if (con.getNombre().equals(nombre)) {
           contactos.eliminar(con);
           borro = true;
-          //it = contactos.elementos(); No es toy muy seguro si hay que reinciar el iterador, pero asi jala chido
-          // Podemos probarlo sin reiniciar el iterador
         }
       }
       if (borro)
@@ -147,7 +149,7 @@ public class Directorio {
    * @param nombre El nombre del ontacto
    * @param cat    La categoria del contacto
    */
-  public void mostrarNC(String nombre, char cat) {    
+  public void mostrarNC(String nombre, char cat) {
     if (!estaVacio() && contieneN(nombre)) {
       String con = "";
       Iterator it = contactos.elementos();
@@ -155,29 +157,27 @@ public class Directorio {
         Contacto cont = (Contacto) it.next();
         switch (cat) {
           case 'a':
-            if (cont instanceof Amigo && cont.getNombre().equals(nombre)){
+            if (cont instanceof Amigo && cont.getNombre().equals(nombre)) {
               con += ((Amigo) cont).toString() + "**********\n";
-	      break;
-	    }
+              break;
+            }
             break;
           case 'f':
-            if (cont instanceof Familiar && cont.getNombre().equals(nombre)){
+            if (cont instanceof Familiar && cont.getNombre().equals(nombre)) {
               con += ((Familiar) cont).toString() + "**********\n";
-	      break;
-	    }
+              break;
+            }
             break;
           case 'c':
-            if (cont instanceof Cliente && cont.getNombre().equals(nombre)){
+            if (cont instanceof Cliente && cont.getNombre().equals(nombre)) {
               con += ((Cliente) cont).toString() + "**********\n";
-	      break;
-	    }
-            break;
-          default:
+              break;
+            }
             break;
         }
       }
       out.println("\n****** Resulatado de Busqueda********\n" + con);
-    } else if(!estaVacio() && !contieneN(nombre))
+    } else if (!estaVacio() && !contieneN(nombre))
       out.println("No se encontraron resultados de la busqueda\n");
     else
       out.println("No hay Contactos almacenados\n");
@@ -188,10 +188,12 @@ public class Directorio {
    */
   public void mostrarFT() {
     String ft = "";
+    Contacto cont = null;
     if (!estaVacio()) {
-      Iterator it = contactos.elementos();
+      ordenAsc();
+      Iterator it = orden.elementos();
       while (it.hasNext()) {
-        Contacto cont = (Contacto) it.next();
+        cont = (Contacto) it.next();
         if (cont instanceof Amigo)
           if (!((Amigo) cont).getFacebook().equals("") || !((Amigo) cont).getTwitter().equals(""))
             ft += ((Amigo) cont).toString();
@@ -209,10 +211,12 @@ public class Directorio {
   public void mostrarCo() {
     String amigos = "";
     String clientes = "";
+    Contacto cont = null;
     if (!estaVacio()) {
-      Iterator it = contactos.elementos();
+      ordenAsc();
+      Iterator it = orden.elementos();
       while (it.hasNext()) {
-        Contacto cont = (Contacto) it.next();
+        cont = (Contacto) it.next();
         if (cont instanceof Amigo && !((Amigo) cont).getCorreo().equals(""))
           amigos += ((Amigo) cont).toString() + "\n**************\n";
         if (cont instanceof Cliente && !((Cliente) cont).getCorreo().equals(""))
@@ -260,10 +264,12 @@ public class Directorio {
   public void mostrarDet(char cat) {
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String det = "";
+    Contacto cont = null;
     if (!estaVacio()) { // Si hay contactos
-      Iterator it = contactos.elementos();
+      ordenAsc();
+      Iterator it = orden.elementos();
       while (it.hasNext()) {
-        Contacto cont = (Contacto) it.next();
+        cont = (Contacto) it.next();
         switch (cat) {
           case 'A': // Es un Amigo
             if (cont instanceof Amigo)// Lo encontro
@@ -282,11 +288,11 @@ public class Directorio {
         }// Fin switch
       }
       // Cambio a un for-each
-      for (String categ: t) {
+      for (String categ : t) {
         if (cat == (categ.charAt(0)) && det.equals(""))
           out.println("No hay '" + categ + "' que mostrar\n");
         if (cat == (categ.charAt(0)))
-          out.println("******" + categ + "********\n" + det);
+          out.println("****** " + categ + " ********\n" + det);
       }
     } // Fin if(!estaVacio)
     else
@@ -300,10 +306,12 @@ public class Directorio {
    */
   public void mostrarNum(long t) {
     String con = "";
+    Contacto cont = null;
     if (!estaVacio()) {
-      Iterator it = contactos.elementos();
+      ordenAsc();
+      Iterator it = orden.elementos();
       while (it.hasNext()) {
-        Contacto cont = (Contacto) it.next();
+        cont = (Contacto) it.next();
         if (t == cont.getTelefono()) {
           con = cont.toString();
           out.println("\nResultado de la busqueda: \n" + con);
@@ -326,10 +334,12 @@ public class Directorio {
     String[] tipo = { "", "", "" };
     String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
     String ts = "";
+    Contacto cont = null;
     if (!estaVacio()) { // Si hay Contactos
-      Iterator it = contactos.elementos();
+      ordenAsc();
+      Iterator it = orden.elementos();
       while (it.hasNext()) { // Los recorremos todos
-        Contacto cont = (Contacto) it.next();
+        cont = (Contacto) it.next();
         if (cont instanceof Amigo)// Es cliente
           tipo[0] += ((Amigo) cont).toString() + "\n********************\n";
         else if (cont instanceof Familiar) // Es amigo
@@ -377,40 +387,32 @@ public class Directorio {
   private Contacto buscar(char c, String n) {
     if (!estaVacio() && contieneN(n)) {
       Iterator it = contactos.elementos();
-      Contacto cont = null;
+      // Contacto cont = null;
+      Contacto con = null;
       while (it.hasNext()) {
-        Contacto con = (Contacto) it.next();
+        con = (Contacto) it.next();
         switch (c) {
           case 'a':
             if (con instanceof Amigo && con.getNombre().equals(n)) {
-              cont = (Contacto) contactos.buscar(con).elemento;
-              // Creo que esta linea se puede hacer mejorar, pero ya no tengo cabeza para ella
-              // ahorita. Aunque sin pedos la linea funciona
+              return con;
             }
             break;
           case 'f':
             if (con instanceof Familiar && con.getNombre().equals(n)) {
-              cont = (Contacto) contactos.buscar(con).elemento;
+              return con;
             }
             break;
           case 'c':
             if (con instanceof Cliente && con.getNombre().equals(n)) {
-              cont = (Contacto) contactos.buscar(con).elemento;
+              return con;
             }
             break;
-          default:
-            return null;
         }
       }
-      return cont;
+      return null;
     } else
       return null;
   }
-
-  // Supongo que para estos quieren que utlizemos el sustituir y esos pedos de la
-  // lista pero pues vemos JAJA
-  // El metodo sustituir es para cambiar objetos de lugar pero como estamos usando
-  // ListasOrdenadas no queremos desordenar la lista asi que no lo utilizamos
 
   /**
    * Metodo privado que actualiza la informacion de un amigo
@@ -509,7 +511,7 @@ public class Directorio {
     } while (op != 9);
   }
 
-  /*
+  /**
    * Metodo privado que actualiza la informacion de un fammiliar
    * 
    * @param c El familiar a actualizar
@@ -570,7 +572,7 @@ public class Directorio {
     } while (op != 5);
   }
 
-  /*
+  /**
    * Metodo privado que actualiza la informacion de un cliente
    * 
    * @param c El cliente a actualizar
@@ -656,7 +658,7 @@ public class Directorio {
    * @param nombre El nombre del contacto
    * 
    * @return boolean true si la lista contiene al contacto con el nombre, false en
-   * el caso contrario
+   *         el caso contrario
    */
   private boolean contieneN(String nombre) {
     boolean respuesta = false;
@@ -665,11 +667,25 @@ public class Directorio {
       while (it.hasNext()) {
         Contacto cont = (Contacto) it.next();
         if (cont.getNombre().equals(nombre)) {
-          respuesta = true;
-          break;
+          //respuesta = true;
+          //break;
+          return !respuesta;
         }
       }
     }
     return respuesta;
+  }
+
+  /**
+   * Metodo privado que nos lanza la lista ordenada
+   */
+  private void ordenAsc() {
+    if (!estaVacio()) {
+      Iterator it = contactos.elementos();
+      while (it.hasNext()) {
+        Contacto cont = (Contacto) it.next();
+        orden.agregar(cont);
+      }
+    }
   }
 }
