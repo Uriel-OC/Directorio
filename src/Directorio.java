@@ -18,7 +18,6 @@ import java.util.Iterator;
 
 //Importando bibliotecas necesarias para algunos parametros
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.regex.*;
 
 /**
@@ -740,12 +739,7 @@ public class Directorio {
         }
     }
 
-    /**
-     * ***************************************************
-     *****INFRAESTRUCTURA PARA LECTURA Y ESCRITURA******* **********DE ARCHIVOS
-     * EN EN JAVA*******************
-     * ***************************************************
-     */
+    
     /**
      * Metodo que permite contar las lineas de un archivo
      *
@@ -821,7 +815,7 @@ public class Directorio {
     }
 
     /**
-     * Metodo que permite almacenar los Artículos en un archivo de texto
+     * Metodo que permite almacenar los Contactos en un archivo csv
      *
      * @param archivo el nombre del archivo a almacenar
      * @throws IOException En caso de que hubiera problemas con el flujo
