@@ -13,7 +13,7 @@ public class Lista<T> implements Listable<T>{
  protected Nodo inicio;
 
  /**
-   * Constructor por omisión. 
+   * Constructor por omisiï¿½n. 
    * <br>Inicio apunta a null, lo cual significa que la Lista esta vacia
    */
  public Lista(){
@@ -47,7 +47,7 @@ public class Lista<T> implements Listable<T>{
 
   /*
    * Metodo que se encarga de buscar el Nodo que contenga el elemento 
-   * <br>pasado como parámetro. 
+   * <br>pasado como parï¿½metro. 
    * @param valor El elemento a buscar.
    * @return Nodo El nodo que lo contiene, null en caso contrario
    */
@@ -70,7 +70,7 @@ public class Lista<T> implements Listable<T>{
 
  /**
    * Sustituye el valor actual de un Nodo por otro nuevo. 
-   * <br>Se usa el método buscar para
+   * <br>Se usa el mï¿½todo buscar para
    * <br>determinar cual es el Nodo que contiene el valor buscado.
    * @param original El valor original del Nodo.
    * @param nuevo El nuevo valor del Nodo.
@@ -104,7 +104,7 @@ public class Lista<T> implements Listable<T>{
      anterior = pos;
      pos = pos.siguiente;
    }
-   if (pos == null) return; // No lo encontró
+   if (pos == null) return; // No lo encontrï¿½
    if(pos == inicio) // Es el inicio de la lista
      inicio = inicio.siguiente;
    else
