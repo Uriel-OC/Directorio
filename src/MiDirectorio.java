@@ -7,6 +7,7 @@ import java.io.IOException;
 
 //Importando bibliotecas para algunos parametros
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.*;
 
 public class MiDirectorio {
@@ -16,7 +17,7 @@ public class MiDirectorio {
         Scanner lector1 = new Scanner(in).useDelimiter("\n");
         Directorio direct = null;
         int dayOfMonth, month, year;
-        String cad1, cad2, cad3, nombre, correo, archivo;
+        String cad1, cad2, cad3, nombre, correo, archivo, cump;
         char opcion, op;
         archivo = null;
         long telefono, celular;
@@ -24,6 +25,8 @@ public class MiDirectorio {
         Pattern pat;
         Matcher mat;
         LocalDate cumpleanios;
+        MonthDay m;
+        Year y = Year.now();
         out.println("\n***** INICIO *****");
         do {
             out.println("a. Cargar un archivo");
@@ -39,7 +42,7 @@ public class MiDirectorio {
                     out.println("Archivo cargado correctamente");
                     cond = false;
                     break;
-                case 'b'://Agregar contactos directamnete
+                case 'b':// Agregar contactos directamnete
                     direct = new Directorio();
                     cond = false;
                     out.println("Directorio virtual creado");
@@ -96,15 +99,17 @@ public class MiDirectorio {
                                     out.println("Ingresa el apodo de tu amigo");
                                     cad1 = lector1.next().toUpperCase();
                                     // cumpleanios
-                                    out.println("Ingresa la fecha del cumpleanios de tu amigo"
-                                            + " (Utilice solo valores enteros)");
+                                    out.println(
+                                            "Ingresa el cumpleanios de tu amigo" + " (Utilice solo valores enteros)");
                                     out.print("Ingrese el dia: ");
                                     dayOfMonth = lector.nextInt();
                                     out.print("Ingrese el mes: ");
                                     month = lector.nextInt();
-                                    out.print("Ingrese el anio: ");
-                                    year = lector.nextInt();
-                                    cumpleanios = LocalDate.of(year, month, dayOfMonth);
+                                    m = MonthDay.of(month, dayOfMonth);
+                                    year = Integer.parseInt(y.toString());
+                                    cumpleanios = m.atYear(year);
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                                    cump = cumpleanios.format(formatter);
                                     // facebook
                                     out.println("Ingresa el facebook de tu amigo");
                                     cad2 = lector1.next();
@@ -116,7 +121,7 @@ public class MiDirectorio {
                                     if (!mat.find()) {
                                         throw new InputMismatchException();
                                     }
-                                    direct.agregar(new Amigo(nombre, telefono, celular, correo, cad1, cumpleanios, cad2,
+                                    direct.agregar(new Amigo(nombre, telefono, celular, correo, cad1, cump, cad2,
                                             cad3));
                                     out.println("Amigo agregado con exito");
                                     break;
@@ -126,6 +131,7 @@ public class MiDirectorio {
                                     err.println("Has escrito un valor incompatible");
                                     break;
                                 } catch (DateTimeException dtDateTimeException) {
+                                    m = MonthDay.now();
                                     err.println("Ingresaste una fecha incorrecta");
                                     break;
                                 }
@@ -143,15 +149,15 @@ public class MiDirectorio {
                                     out.println("Ingrese el parentesco de tu familiar");
                                     cad1 = lector1.next().toUpperCase();
                                     // cumpleanios
-                                    out.println("Ingresa la fecha del cumpleanios de tu amigo"
-                                            + " (Utilice solo valores enteros)");
+                                    out.println(
+                                            "Ingresa el cumpleanios de tu amigo" + " (Utilice solo valores enteros)");
                                     out.print("Ingrese el dia: ");
                                     dayOfMonth = lector.nextInt();
                                     out.print("Ingrese el mes: ");
                                     month = lector.nextInt();
-                                    out.print("Ingrese el anio: ");
-                                    year = lector.nextInt();
-                                    cumpleanios = LocalDate.of(year, month, dayOfMonth);
+                                    m = MonthDay.of(month, dayOfMonth);
+                                    year = Integer.parseInt(y.toString());
+                                    cumpleanios = m.atYear(year);
                                     direct.agregar(new Familiar(nombre, telefono, cad1, cumpleanios));
                                     out.println("Familiar agregado con exito");
                                     break;
@@ -382,7 +388,7 @@ public class MiDirectorio {
                         }
                     } while (op != 'e');
                     break;
-                case 'f'://Guardar Directorio
+                case 'f':// Guardar Directorio
                     if (archivo.equals("")) {
                         out.print("Como quieres llamar el archivo donde se guardaran los articulos? ");
                         out.println("(sin incluir la extension del archivo)");
@@ -392,11 +398,11 @@ public class MiDirectorio {
                         direct.guardarArchivo(archivo);
                         out.println("\nArticulos guardados con exito!\n");
                         guardado = true;
-                        } catch (IOException e) {
-                            out.println("\nEl archivo no ha podido ser guardado\n");
-                        }
+                    } catch (IOException e) {
+                        out.println("\nEl archivo no ha podido ser guardado\n");
+                    }
                     break;
-                case 'g'://Salir
+                case 'g':// Salir
                     if (!direct.estaVacio())
                         if (!guardado)
                             do {
@@ -405,13 +411,14 @@ public class MiDirectorio {
                                 switch (op) {
                                     case 'n':
                                         if (archivo.equals("")) {
-                                            out.print("Como quieres llamar el archivo donde se guardaran los articulos? ");
+                                            out.print(
+                                                    "Como quieres llamar el archivo donde se guardaran los articulos? ");
                                             out.println("(sin incluir la extension del archivo)");
                                             archivo = lector1.next().toLowerCase() + ".txt";
                                             try {
-                                               direct.guardarArchivo(archivo);
+                                                direct.guardarArchivo(archivo);
                                             } catch (IOException e) {
-                                               out.println("\nEl archivo no ha podido ser guardado\n");
+                                                out.println("\nEl archivo no ha podido ser guardado\n");
                                             }
                                         } else {
                                             out.println("\nGuardando...");

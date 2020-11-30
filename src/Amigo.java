@@ -14,7 +14,7 @@ import java.time.LocalDate;
  */
 public class Amigo extends ContactoCC {
     private String apodo;
-    private LocalDate cumpleanios;
+    private String cumpleanios;
     private String facebook;
     private String twitter;
 
@@ -30,7 +30,7 @@ public class Amigo extends ContactoCC {
      * @param facebook    El facebook del contacto Amigo
      * @param twitter     El twitter del contacto Amigo
      */
-    public Amigo(String nombre, long telefono, long celular, String correo, String apodo, LocalDate cumpleanios,
+    public Amigo(String nombre, long telefono, long celular, String correo, String apodo, String cumpleanios,
             String facebook, String twitter) {
         super(nombre, telefono, celular, correo);
         this.apodo = apodo;
@@ -53,7 +53,7 @@ public class Amigo extends ContactoCC {
      *
      * @return String el cumpleanios del contacto Amigo
      */
-    public LocalDate getCumpleanios() {
+    public String getCumpleanios() {
         return cumpleanios;
     }
 
@@ -89,7 +89,7 @@ public class Amigo extends ContactoCC {
      *
      * @param cumpleanios El cumpleanios del contacto Amigo
      */
-    public void setCumpleanios(LocalDate cumpleanios) {
+    public void setCumpleanios(String cumpleanios) {
         this.cumpleanios = cumpleanios;
     }
 

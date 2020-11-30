@@ -787,7 +787,7 @@ public class Directorio {
                         Long.parseLong(cad[3]), //Celular
                         cad[4].toUpperCase(),//Correo
                         cad[5].toUpperCase(),//Apodo
-                        LocalDate.parse(cad[6]),//Cumpleanios
+                        cad[6].toUpperCase(),//Cumpleanios
                         cad[7].toUpperCase(),//Facebook 
                         cad[8].toUpperCase()));//Twitter
             } else if (cad[0].equals("F"))//Se trata de un Familiar
