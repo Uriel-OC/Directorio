@@ -18,6 +18,7 @@ import java.util.Iterator;
 
 //Importando bibliotecas necesarias para algunos parametros
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.*;
 
 /**
@@ -42,6 +43,7 @@ public class Directorio {
     private Scanner lector1;
     Pattern pat;
     Matcher mat;
+    DateTimeFormatter form;
 
     /**
      * Constructor por omision <br>
@@ -53,6 +55,7 @@ public class Directorio {
         orden = new ListaOrdenada<>(new ComparaNombre());
         lector = new Scanner(in);
         lector1 = new Scanner(in).useDelimiter("\n");
+        form = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     }
 
     /**
@@ -167,7 +170,7 @@ public class Directorio {
      * Metodo que muestra a un contacto dado su nombre y categoria
      *
      * @param nombre El nombre del ontacto
-     * @param cat La categoria del contacto
+     * @param cat    La categoria del contacto
      */
     public void mostrarNC(String nombre, char cat) {
         if (!estaVacio() && contieneN(nombre)) {
@@ -290,7 +293,7 @@ public class Directorio {
      * @param cat La categoria de los clientes
      */
     public void mostrarDet(char cat) {
-        String[] t = {"AMIGOS", "FAMILIARES", "CLIENTES"};
+        String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
         String det = "";
         Contacto cont = null;
         if (!estaVacio()) { // Si hay contactos
@@ -370,8 +373,8 @@ public class Directorio {
      */
     @Override
     public String toString() {
-        String[] tipo = {"", "", ""};
-        String[] t = {"AMIGOS", "FAMILIARES", "CLIENTES"};
+        String[] tipo = { "", "", "" };
+        String[] t = { "AMIGOS", "FAMILIARES", "CLIENTES" };
         String ts = "";
         Contacto cont = null;
         if (!estaVacio()) { // Si hay Contactos
@@ -400,14 +403,13 @@ public class Directorio {
         } else {
             return "\nNo hay contactos almacenados";
         }
-        
+
     }
 
     /**
-     * Metodo que actualiza la informacion de un contacto dada su categoria y
-     * nombre
+     * Metodo que actualiza la informacion de un contacto dada su categoria y nombre
      *
-     * @param cat La categoria del contacto
+     * @param cat    La categoria del contacto
      * @param nombre El nombre del contacto
      */
     public void actualizar(char cat, String nombre) {
@@ -430,7 +432,7 @@ public class Directorio {
      *
      * @param cat La categoria del contacto
      *
-     * @param n El nombre del contacto
+     * @param n   El nombre del contacto
      */
     private Contacto buscar(char c, String n) {
         if (!estaVacio() && contieneN(n)) {
@@ -472,6 +474,8 @@ public class Directorio {
         int op;
         long an;
         String au;
+        MonthDay m;
+        Year y = Year.now();
         Amigo a = (Amigo) c;
         do {
             out.println("\nSelecciona el atributo que deseas modificar:");
@@ -519,17 +523,17 @@ public class Directorio {
                     a.setApodo(au);
                     break;
                 case 6:
-                    out.println(
-                            "\nEscribe la nueva fecha" + "Ingresa los datos comforme se te pide" + "(Utilice solo valores enteros)");
-                    out.print("Ingrese el dia:");
+                    out.println("Ingresa el cumpleanios de tu amigo" + " (Utilice solo valores enteros)");
+                    out.print("Ingrese el dia: ");
                     dayOfMonth = lector.nextInt();
-                    out.print("Ingrese el mes:");
+                    out.print("Ingrese el mes: ");
                     month = lector.nextInt();
-                    out.print("Ingrese el anio:");
-                    year = lector.nextInt();
+                    year = Integer.parseInt(y.toString());
                     try {
-                        LocalDate cum = LocalDate.of(year, month, dayOfMonth);
-                        a.setCumpleanios(cum);
+                        m = MonthDay.of(month, dayOfMonth);
+                        LocalDate cu = m.atYear(year);
+                        au = cu.format(form);
+                        a.setCumpleanios(au);
                         out.println("Validacion Exitosa");
                     } catch (DateTimeException dtTimeException) {
                         err.println("\nFecha Invalida!!!");
@@ -569,6 +573,8 @@ public class Directorio {
         int op;
         long an;
         String au;
+        MonthDay m;
+        Year y = Year.now();
         Familiar f = (Familiar) c;
         do {
             out.println("\nSelecciona el atributo que deseas modificar:");
@@ -596,19 +602,19 @@ public class Directorio {
                     f.setParentesco(au);
                     break;
                 case 4:
-                    out.println(
-                            "\nEscribe la nueva fecha" + "Ingresa los datos comforme se te pide" + "(Utilice solo valores enteros)");
-                    out.print("Ingrese el dia:");
+                    out.println("Ingresa el cumpleanios de tu amigo" + " (Utilice solo valores enteros)");
+                    out.print("Ingrese el dia: ");
                     dayOfMonth = lector.nextInt();
-                    out.print("Ingrese el mes:");
+                    out.print("Ingrese el mes: ");
                     month = lector.nextInt();
-                    out.print("Ingrese el anio:");
-                    year = lector.nextInt();
+                    year = Integer.parseInt(y.toString());
                     try {
-                        LocalDate cum = LocalDate.of(year, month, dayOfMonth);
-                        f.setCumpleanios(cum);
+                        m = MonthDay.of(month, dayOfMonth);
+                        LocalDate cu = m.atYear(year);
+                        au = cu.format(form);
+                        f.setCumpleanios(au);
                         out.println("Validacion Exitosa");
-                    } catch (DateTimeException dTimeException) {
+                    } catch (DateTimeException dtTimeException) {
                         err.println("\nFecha Invalida!!!");
                     }
                     break;
@@ -706,8 +712,8 @@ public class Directorio {
      *
      * @param nombre El nombre del contacto
      *
-     * @return boolean true si la lista contiene al contacto con el nombre,
-     * false en el caso contrario
+     * @return boolean true si la lista contiene al contacto con el nombre, false en
+     *         el caso contrario
      */
     private boolean contieneN(String nombre) {
         boolean respuesta = false;
@@ -716,8 +722,8 @@ public class Directorio {
             while (it.hasNext()) {
                 Contacto cont = (Contacto) it.next();
                 if (cont.getNombre().equals(nombre)) {
-                    //respuesta = true;
-                    //break;
+                    // respuesta = true;
+                    // break;
                     return !respuesta;
                 }
             }
@@ -739,92 +745,98 @@ public class Directorio {
         }
     }
 
-    
+    /**
+     * *************************************************** INFRAESTRUCTURA PARA
+     * LECTURA Y ESCRITURA******* **********DE ARCHIVOS EN EN
+     * JAVA******************* ***************************************************
+     */
     /**
      * Metodo que permite contar las lineas de un archivo
      *
      * @param archivo Una cadena con el nombre del archivo
      * @return int El numero de lineas que tiene el archivo
      * @throws FileNotFoundException En caso de que el archivo no exista
-     * @throws IOException En caso de que hubiera problemas con el flujo I/O
+     * @throws IOException           En caso de que hubiera problemas con el flujo
+     *                               I/O
      */
-    public int contarLineas(String archivo) throws FileNotFoundException,
-            IOException {
-        FileReader fr = new FileReader(archivo); //Indentifica el archivo para lectura
-        BufferedReader bfr = new BufferedReader(fr); //Se crea el buffer de lectura
+    public int contarLineas(String archivo) throws FileNotFoundException, IOException {
+        FileReader fr = new FileReader(archivo); // Indentifica el archivo para lectura
+        BufferedReader bfr = new BufferedReader(fr); // Se crea el buffer de lectura
         String linea;
         int nlineas = 0;
-        linea = bfr.readLine(); //Leemos la primera línea
-        while (linea != null) { //Mientras no lleguemos al EOF
-            nlineas++; //Contamos la linea leída
-            linea = bfr.readLine(); //Leemos la siguiente línea
+        linea = bfr.readLine(); // Leemos la primera línea
+        while (linea != null) { // Mientras no lleguemos al EOF
+            nlineas++; // Contamos la linea leída
+            linea = bfr.readLine(); // Leemos la siguiente línea
         }
-        return nlineas; //Devolvemos el total de lineas contadas
+        return nlineas; // Devolvemos el total de lineas contadas
     }
 
     /**
-     * Metodo que permite leer las lineas de un archivo y almacenarlas en un
-     * arreglo
+     * Metodo que permite leer las lineas de un archivo y almacenarlas en un arreglo
      *
      * @param archivo Una cadena con el nombre del archivo
      * @throws FileNotFoundException En caso de que el archivo no exista
-     * @throws IOException En caso de que hubiera problemas con el flujo
+     * @throws IOException           En caso de que hubiera problemas con el flujo
      */
-    public void archivoAArreglo(String archivo) throws FileNotFoundException,
-            IOException {
-        try{
-        FileReader fr = new FileReader(archivo); //Creamos el archivo de lectura
-        BufferedReader bfr = new BufferedReader(fr); //Creamos el buffer de lectura
+    public void archivoAArreglo(String archivo) throws FileNotFoundException, IOException {
+        // try{
+        FileReader fr = new FileReader(archivo); // Creamos el archivo de lectura
+        BufferedReader bfr = new BufferedReader(fr); // Creamos el buffer de lectura
         String linea, cad[];
-        linea = bfr.readLine(); //Leemos la primera linea
-        while (linea != null) { //Mientras no lleguemos al EOF
-            cad = linea.split(","); //Separamos la cadena
+        boolean agreg = false;// NUNCA SE OCUPA
+        linea = bfr.readLine(); // Leemos la primera linea
+        while (linea != null) { // Mientras no lleguemos al EOF
+            cad = linea.split(","); // Separamos la cadena
 
-            if (cad[0].equals("A"))//Se trata de un Amigo
+            if (cad[0].equals("A"))// Se trata de un Amigo
             {
-                agregar(new Amigo(cad[1].toUpperCase(), //Nombre
-                        Long.parseLong(cad[2]), //Telefono
-                        Long.parseLong(cad[3]), //Celular
-                        cad[4].toUpperCase(),//Correo
-                        cad[5].toUpperCase(),//Apodo
-                        cad[6].toUpperCase(),//Cumpleanios
-                        cad[7].toUpperCase(),//Facebook 
-                        cad[8].toUpperCase()));//Twitter
-            } else if (cad[0].equals("F"))//Se trata de un Familiar
+                agregar(new Amigo(cad[1].toUpperCase(), // Nombre
+                        Long.parseLong(cad[2]), // Telefono
+                        Long.parseLong(cad[3]), // Celular
+                        cad[4].toUpperCase(), // Correo
+                        cad[5].toUpperCase(), // Apodo
+                        cad[6], // Cumpleanios
+                        cad[7].toUpperCase(), // Facebook
+                        cad[8].toUpperCase()));// Twitter
+            } else if (cad[0].equals("F"))// Se trata de un Familiar
             {
-                agregar(new Familiar(cad[1].toUpperCase(), //Nombre
-                        Long.parseLong(cad[2]), //Telefono
-                        cad[3].toUpperCase(), //Parentesco
-                        LocalDate.parse(cad[4])));//Cumpleanios
-            } else if (cad[0].equals("C"))//Se trata de una Cliente
+                agregar(new Familiar(cad[1].toUpperCase(), // Nombre
+                        Long.parseLong(cad[2]), // Telefono
+                        cad[3].toUpperCase(), // Parentesco
+                        cad[4]));// Cumpleanios
+            } else if (cad[0].equals("C"))// Se trata de una Cliente
             {
-                agregar(new Cliente(cad[1].toUpperCase(), //Nombre
-                        Long.parseLong(cad[2]), //Telefono
-                        Long.parseLong(cad[3]), //Celular
-                        cad[4].toUpperCase(),//Correo
-                        cad[5].toUpperCase(), //Compania
-                        cad[6].toUpperCase(), //Extension
-                        cad[7].toUpperCase())); //Web page
+                agregar(new Cliente(cad[1].toUpperCase(), // Nombre
+                        Long.parseLong(cad[2]), // Telefono
+                        Long.parseLong(cad[3]), // Celular
+                        cad[4].toUpperCase(), // Correo
+                        cad[5].toUpperCase(), // Compania
+                        cad[6].toUpperCase(), // Extension
+                        cad[7].toUpperCase())); // Web page
             }
-            linea = bfr.readLine(); //Leemos la siguiente línea
+            linea = bfr.readLine(); // Leemos la siguiente línea
         }
-        }catch (FileNotFoundException e) {
-        // TODO Auto-generated catch block
-        System.out.println("No se encontro el archivo "); 
-    }
+        /*
+         * System.out.println("Se cargo el archivo correctamente");
+         * 
+         * }catch (FileNotFoundException e) {
+         * System.out.println("No se encontro el archivo "); }
+         */
     }
 
     /**
-     * Metodo que permite almacenar los Contactos en un archivo csv
+     * Metodo que permite almacenar los Artículos en un archivo de texto
      *
      * @param archivo el nombre del archivo a almacenar
      * @throws IOException En caso de que hubiera problemas con el flujo
      */
     public void guardarArchivo(String archivo) throws IOException {
-        FileWriter fw = new FileWriter(archivo); //Creamos el archivo de escritura
-        BufferedWriter bfw = new BufferedWriter(fw); //Creamos el buffer de escritura
-        //BufferedWriter bfw = new BufferedWriter(fw,true); <--Indica un archivo para append
-        PrintWriter pw = new PrintWriter(bfw); //Creamos la "impresora"
+        FileWriter fw = new FileWriter(archivo); // Creamos el archivo de escritura
+        BufferedWriter bfw = new BufferedWriter(fw); // Creamos el buffer de escritura
+        // BufferedWriter bfw = new BufferedWriter(fw,true); <--Indica un archivo para
+        // append
+        PrintWriter pw = new PrintWriter(bfw); // Creamos la "impresora"
         String linea = "";
         String con = "";
         Iterator it = contactos.elementos();
@@ -832,24 +844,21 @@ public class Directorio {
             Contacto cont = (Contacto) it.next();
             if (cont instanceof Amigo) {
                 Amigo a = ((Amigo) cont);
-                linea += "A," + a.getNombre() + "," + a.getTelefono() + ","
-                        + a.getCelular() + "," + a.getCorreo() + "," + a.getApodo()
-                        + "," + a.getCumpleanios() + "," + a.getFacebook()
-                        + "," + a.getTwitter();
+                linea += "A," + a.getNombre() + "," + a.getTelefono() + "," + a.getCelular() + "," + a.getCorreo() + ","
+                        + a.getApodo() + "," + a.getCumpleanios() + "," + a.getFacebook() + "," + a.getTwitter();
             } else if (cont instanceof Familiar) {
                 Familiar f = ((Familiar) cont);
-                linea += "F," + f.getNombre() + "," + f.getTelefono() + ","
-                        + f.getParentesco() + "," + f.getCumpleanios();
+                linea += "F," + f.getNombre() + "," + f.getTelefono() + "," + f.getParentesco() + ","
+                        + f.getCumpleanios();
             } else if (cont instanceof Cliente) {
                 Cliente c = ((Cliente) cont);
-                linea += "C," + c.getNombre() + "," + c.getTelefono() + ","
-                        + c.getCelular() + "," + c.getCorreo() + "," + c.getCompania()
-                        + "," + c.getExtension() + "," + c.getWebpage();
+                linea += "C," + c.getNombre() + "," + c.getTelefono() + "," + c.getCelular() + "," + c.getCorreo() + ","
+                        + c.getCompania() + "," + c.getExtension() + "," + c.getWebpage();
             }
             linea += "\n";
         }
-        pw.println(linea); //Imprimimos la línea actual
-        linea = ""; //Limpiamos la línea
-        pw.close(); //Cerramos el flujo de escritura, ¡Muy importante!
+        pw.println(linea); // Imprimimos la línea actual
+        linea = ""; // Limpiamos la línea
+        pw.close(); // Cerramos el flujo de escritura, ¡Muy importante!
     }
 }

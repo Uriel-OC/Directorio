@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 
 /**
  * Clase que permite modelar un contacto de la categoria Amigo

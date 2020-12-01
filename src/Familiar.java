@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 
 /**
  * Clase que permite modelar un contacto de la categoria Familiar
@@ -14,7 +13,7 @@ import java.time.LocalDate;
  */
 public class Familiar extends Contacto {
     private String parentesco;
-    private LocalDate cumpleanios;
+    private String cumpleanios;
 
     /**
      * Constructor que recibe parametros
@@ -24,7 +23,7 @@ public class Familiar extends Contacto {
      * @param parentesco  El parentesco del Familiar
      * @param cumpleanios El cumpleanios del Familiar
      */
-    public Familiar(String nombre, long telefono, String parentesco, LocalDate cumpleanios) {
+    public Familiar(String nombre, long telefono, String parentesco, String cumpleanios) {
         super(nombre, telefono);
         this.parentesco = parentesco;
         this.cumpleanios = cumpleanios;
@@ -44,7 +43,7 @@ public class Familiar extends Contacto {
      *
      * @return String el cumpleanios del Familiar
      */
-    public LocalDate getCumpleanios() {
+    public String getCumpleanios() {
         return cumpleanios;
     }
 
@@ -62,7 +61,7 @@ public class Familiar extends Contacto {
      *
      * @param cumpleanios El cumpleanios del Familiar
      */
-    public void setCumpleanios(LocalDate cumpleanios) {
+    public void setCumpleanios(String cumpleanios) {
         this.cumpleanios = cumpleanios;
     }
 
